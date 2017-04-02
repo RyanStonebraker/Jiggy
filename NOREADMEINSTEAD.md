@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo colin is bad at passwords
+echo collin is bad at passwords
