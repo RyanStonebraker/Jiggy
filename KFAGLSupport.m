@@ -105,30 +105,6 @@ void OGL_UpdateVertexArrays(void)
                     glDrawArrays(GL_LINES, 0, 4);
                 }
                 break;
-            case kfaGeometryTypeRectangularPrism:
-                ;
-                if (vertexBufferObjects[i].forceUpdate) {
-                    float *rectPrismExtraData = (float *)vertexBufferObjects[i].dataBlockPtr;
-                    /*Set up Vertex Data*/
-                    glBufferData(GL_ARRAY_BUFFER, vertexBufferObjects[i].arraySize-VERTEX_OFFSET_2D, vertexBufferObjects[i].dataBlockPtr + VERTEX_OFFSET_2D, GL_STATIC_DRAW);
-                    
-                    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[i].vbo);
-                    glVertexPointer(3, GL_FLOAT, 0, NULL);
-                    glEnableClientState(GL_VERTEX_ARRAY);
-                    
-                    /*Set up color data*/
-                    glColor4f(*(rectPrismExtraData), *(rectPrismExtraData+1), *(rectPrismExtraData+2), *(rectPrismExtraData+3));
-                    
-                    /*Set up rotation Data*/
-                    glRotatef(*(rectPrismExtraData+4), 1.0f, 0.0f, 0.0f);
-                    glRotatef(*(rectPrismExtraData+5), 0.0f, 1.0f, 0.0f);
-                    glRotatef(*(rectPrismExtraData+6), 0.0f, 0.0f, 0.0f);
-                    
-                    glDrawArrays(GL_QUADS, 0, 1*RECT_PRISM_VERTEX_COUNT);
-                    //vertexBufferObjects[i].forceUpdate = NO;
-                }else{
-                    glDrawArrays(GL_QUADS, 0, 1*RECT_PRISM_VERTEX_COUNT);
-                }
             case kfaGeometryTypeRectangle:
                 ;
                 

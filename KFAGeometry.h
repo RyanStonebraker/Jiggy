@@ -18,8 +18,6 @@ void UpdateGeometry(BOOL switchColors, int horizontalVelocity, int verticalVeloc
 
 void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID);
 
-KFAGeometryRectangularPrism* CreateNewRectangularPrism(KFAPoint startPoint, float length, float *angle, KFAColorRGBA color, float width, float height);
-
 KFAGeometryRectangle* CreateNewRectangle(KFAPoint startPoint, float width, float height, float rotationAngle, KFAColorRGBA color);
 
 size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type);

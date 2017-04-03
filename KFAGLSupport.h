@@ -32,7 +32,6 @@ typedef struct{
 }KFAColorRGBA;
 
 typedef enum : unsigned int {
-    kfaGeometryTypeRectangularPrism,
     kfaGeometryTypeRectangle,
     kfaGeometryTypeLine
 }KFAGeometryType;
