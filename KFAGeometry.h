@@ -10,11 +10,15 @@
 #define KFA_GEOMETRY_H_INCLUDED
 
 #include "KFAGLSupport.h"
-#include <OpenGL/OpenGL.h>
+#if __APPLE__
+    #include <OpenGL/OpenGL.h>
+#elif _WIN32
+
+#endif
 
 void InitGeometry(void);
 
-void UpdateGeometry(BOOL switchColors, int horizontalVelocity, int verticalVelocity, float rotation);
+void UpdateGeometry(bool switchColors, int horizontalVelocity, int verticalVelocity, float rotation);
 
 void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID);
 

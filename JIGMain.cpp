@@ -19,7 +19,7 @@
 void HandleKeypresses(void)
 {
 #if __APPLE__
-    static BOOL shouldChangeColor = NO;
+    static bool shouldChangeColor = NO;
     int horzVelocity = 0, vertVelocity = 0, rotation = 0;
     
     if (pressedKeys[kVK_ANSI_W]) {

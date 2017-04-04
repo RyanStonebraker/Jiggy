@@ -6,6 +6,7 @@
 //  Copyright © 2017 Collin Lasley. All rights reserved.
 //
 
+#if __APPLE__
 #import "AppDelegate.h"
 #import "KFAOpenGLView.h"
 
@@ -36,3 +37,4 @@
 
 
 @end
+#endif
