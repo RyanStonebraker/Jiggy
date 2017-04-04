@@ -1,5 +1,0 @@
-//Sasha Wessels
-
-namespace jig{
-	
-}
