@@ -1,5 +1,5 @@
 //Sasha Wessels
-
-namespace jig{
+#include "JIGShape.h"
+namespace JIG{
 	
 }

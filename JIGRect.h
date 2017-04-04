@@ -1,5 +1,8 @@
 //Sasha Wessels
+#ifndef JIGRect_H_
+#define JIGRect_H_
 
-namespace jig{
+namespace JIG{
 	
 }
+#endif /*JIGRect_H_*/
