@@ -20,7 +20,7 @@
     
     glWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(100, 100, 640, 480) styleMask:NSTitledWindowMask | NSMiniaturizableWindowMask | NSClosableWindowMask backing:NSBackingStoreBuffered defer:YES screen:[NSScreen mainScreen]];
     
-    CSPOpenGLView *glView = [[CSPOpenGLView alloc] initWithFrame:[glWindow contentRectForFrameRect:[glWindow frame]]];
+    KFAOpenGLView *glView = [[KFAOpenGLView alloc] initWithFrame:[glWindow contentRectForFrameRect:[glWindow frame]]];
     [glWindow setTitle:@"Render Preview"];
     [glWindow setContentView:glView];
     [glWindow makeFirstResponder:glView];

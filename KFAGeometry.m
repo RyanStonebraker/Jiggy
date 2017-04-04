@@ -27,7 +27,7 @@ void InitGeometry(void)
     OGL_AssignMemoryToVertexArray(axisLines, kfaGeometryTypeLine, sizeof(axisLinesData), nextVertexBuffer);
     nextVertexBuffer++;
     
-    aRect = CreateNewRectangle((KFAPoint){0.0f,0.0f, 200.0f}, 100.0f, 100.0f, 0.0f, (KFAColorRGBA){1.0f, 1.0f, 1.0f, 1.0f});
+    aRect = CreateNewRectangle((KFAPoint){0,0, 200}, 100.0f, 100.0f, 0.0f, (KFAColorRGBA){1.0f, 1.0f, 1.0f, 1.0f});
     SubmitRectangleForRender(aRect, -1);
 }
 
@@ -69,7 +69,7 @@ void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID)
 
 KFAGeometryRectangle* CreateNewRectangle(KFAPoint startPoint, float width, float height, float rotationAngle, KFAColorRGBA color)
 {
-    KFAGeometryRectangle *newRectangle = malloc(sizeof(KFAGeometryRectangle));
+    KFAGeometryRectangle *newRectangle = (KFAGeometryRectangle *)malloc(sizeof(KFAGeometryRectangle));
     
     newRectangle->centerPoint = startPoint;
     newRectangle->width = width;
@@ -90,7 +90,7 @@ size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type
             ;
             KFAGeometryLine *theLine = (KFAGeometryLine *)input;
             long int dataSize = sizeof(KFAColorRGBA)+sizeof(float)*3+sizeof(KFAPoint)*2;
-            float *objData = malloc(dataSize);
+            float *objData = (float *)malloc(dataSize);
             
             objData[0] = 1.0f; objData[1] = 1.0f; objData[2] = 1.0f; objData[3] = 1.0f;
             objData[4] = theLine->rotations[0]; objData[5] = theLine->rotations[1]; objData[6] = theLine->rotations[2];
@@ -112,7 +112,7 @@ size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type
             KFAGeometryRectangle *theRect = (KFAGeometryRectangle *)input;
             /*Size for color, rotation transforms, and verticies*/
             long int dataSize = sizeof(KFAColorRGBA)+sizeof(float)+sizeof(KFAPoint)*4;
-            float *objData = malloc(dataSize);
+            float *objData = (float *)malloc(dataSize);
             
             objData[0] = theRect->color.r; objData[1] = theRect->color.g; objData[2] = theRect->color.b; objData[3] = theRect->color.a;
             objData[4] = theRect->rotation;

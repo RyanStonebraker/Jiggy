@@ -6,10 +6,14 @@
 //  Copyright © 2017 Collin Lasley. All rights reserved.
 //
 
+
 #include "KFAGLSupport.h"
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/gl.h>
-#import <GLKit/GLKit.h>
+
+#ifdef __OBJC__
+    #import <GLKit/GLKit.h>
+#endif
 
 #define NUM_VERTEX_ARRAYS 2
 #define RECT_PRISM_VERTEX_COUNT 24

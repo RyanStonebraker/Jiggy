@@ -28,7 +28,7 @@ typedef struct{
 extern KFAPoint rectCenter;
 
 typedef struct{
-    signed int r, g, b, a;
+    float r, g, b, a;
 }KFAColorRGBA;
 
 typedef enum : unsigned int {

@@ -8,15 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern BOOL pressedKeys[128];
-
 void DrawGeometry(NSRect windowFrame);
 
 void HandleKeypresses(void);
 
 static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeStamp* now, const CVTimeStamp* outputTime, CVOptionFlags flagsIn, CVOptionFlags* flagsOut, void* displayLinkContext);
 
-@interface CSPOpenGLView : NSOpenGLView
+@interface KFAOpenGLView : NSOpenGLView
 {
     CVDisplayLinkRef displayLink;
 }
