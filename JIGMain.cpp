@@ -16,9 +16,9 @@
 #include "JIGMain.h"
 #include "KFAGeometry.h"
 
+#if __APPLE__
 void HandleKeypresses(void)
 {
-#if __APPLE__
     static bool shouldChangeColor = NO;
     int horzVelocity = 0, vertVelocity = 0, rotation = 0;
     
@@ -52,10 +52,38 @@ void HandleKeypresses(void)
     if (pressedKeys[kVK_ANSI_K]) {
         OGL_AdjustCamera((float[]){-KFA_ZOOM_SPEED, -KFA_ZOOM_SPEED, -KFA_ZOOM_SPEED}, KFA_CAMERA_ZOOM);
     }
-#elif _WIN32
-    
-#endif
 }
+#elif _WIN32
+void HandleKeypresses(char c)
+{
+	static bool shouldChangeColor = false;
+	int horzVelocity = 0, vertVelocity = 0, rotation = 0;
+
+	if (c == 'W') {
+		vertVelocity += 10;
+	}
+	if (c == 'A') {
+		horzVelocity -= 10;
+	}
+	if (c == 'S') {
+		vertVelocity -= 10;
+	}
+	if (c == 'D') {
+		horzVelocity += 10;
+	}
+	if (c == 'C') {
+		shouldChangeColor = !shouldChangeColor;
+	}
+	if (c == ',') {
+		rotation -= 5;
+	}
+	if (c == '.') {
+		rotation += 5;
+	}
+
+	UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
+}
+#endif
 
 void glInit(void)
 {
@@ -74,6 +102,9 @@ void glInit(void)
 
 void jiggyInit(void)
 {
+#if _WIN32
+	OGL_InitWGL();
+#endif
     glInit();
     
     InitGeometry();
@@ -81,7 +112,9 @@ void jiggyInit(void)
 
 void jiggyRenderFrame(void)
 {
+#if __APPLE__
     HandleKeypresses();
+#endif
     OGL_ApplyCameraTransformations();
     OGL_UpdateVertexArrays();
 }

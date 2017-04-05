@@ -9,9 +9,14 @@
 #ifndef KFAGLSupport_h
 #define KFAGLSupport_h
 
-#include <Foundation/Foundation.h>
-#include <CoreGraphics/CGGeometry.h>
-#include <OpenGL/OpenGL.h>
+#if __APPLE__
+	#include <Foundation/Foundation.h>
+	#include <CoreGraphics/CGGeometry.h>
+	#include <OpenGL/OpenGL.h>
+#elif _WIN32
+	#include <windows.h>
+	#include <GL/GL.h>
+#endif
 
 #define degreesToRadians(angleDegrees) (angleDegrees * 3.14159265 / 180.0)
 
@@ -64,8 +69,8 @@ typedef struct{
     void	*dataBlockPtr;			/*Point to first byte of VAR memory*/
     KFAGeometryType type;
     GLuint  vbo;                    /*GL Vertex Buffer Object Ptr*/
-    BOOL	forceUpdate;			/*YES Indicates VAR needs update*/
-    BOOL	activated;				/*YES After first use*/
+    bool	forceUpdate;			/*YES Indicates VAR needs update*/
+    bool	activated;				/*YES After first use*/
 }VertexArrayType;
 
 typedef enum : unsigned int {
@@ -74,9 +79,9 @@ typedef enum : unsigned int {
     KFA_CAMERA_ZOOM,
 }KFACameraManipulationMode;
 
-void OGL_SetOrthographicMatrix(double leftBound, double rightBound, double topBound, double bottomBound, double backZBound, double frontZBound);
+void OGL_InitWGL(void);
 
-void OGL_SetPerspective(float fovDegrees, CGRect windowRect, float nearZ, float farZ);
+void OGL_SetOrthographicMatrix(double leftBound, double rightBound, double topBound, double bottomBound, double backZBound, double frontZBound);
 
 void OGL_TrainCameraToPosition(KFAPoint cameraPosition, KFAPoint subjectPosition);
 

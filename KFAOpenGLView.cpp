@@ -6,6 +6,8 @@
 //  Copyright (c) 2017 Collin Lasley. All rights reserved.
 //
 
+#if __APPLE__
+
 #import <OpenGL/OpenGL.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
@@ -115,3 +117,5 @@ static CVReturn DisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeSt
 }
 
 @end
+
+#endif

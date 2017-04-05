@@ -7,8 +7,12 @@
 //
 
 #include "KFAGeometry.h"
-#include <OpenGL/glext.h>
-#include <Opengl/gl.h>
+#if __APPLE__
+	#include <OpenGL/glext.h>
+	#include <Opengl/gl.h>
+#elif _WIN32
+	#include <GL/GL.h>
+#endif
 
 static const float axisLinesData[] = {-1000.0f, 0.0f, 0.0f,
     1000.0f, 0.0f, 0.0f,
@@ -27,7 +31,14 @@ void InitGeometry(void)
     OGL_AssignMemoryToVertexArray(axisLines, kfaGeometryTypeLine, sizeof(axisLinesData), nextVertexBuffer);
     nextVertexBuffer++;
     
+#if _MSC_VER
+	/*C++, ladies and gentlemen: supports every programming feature on the planet, including ones barely anybody wants, but can't even support C99 designated initializers*/
+	KFAPoint initialPoint; initialPoint.x = 0; initialPoint.y = 0; initialPoint.z = 200;
+	KFAColorRGBA initialColor; initialColor.r = 1.0f; initialColor.g = 1.0; initialColor.b = 1.0f; initialColor.a = 1.0f;
+	aRect = CreateNewRectangle(initialPoint, 100.0f, 100.0f, 0.0f, initialColor);
+#else
     aRect = CreateNewRectangle((KFAPoint){0,0, 200}, 100.0f, 100.0f, 0.0f, (KFAColorRGBA){1.0f, 1.0f, 1.0f, 1.0f});
+#endif
     SubmitRectangleForRender(aRect, -1);
 }
 
@@ -35,9 +46,18 @@ void UpdateGeometry(bool switchColors, int horizontalVelocity, int verticalVeloc
 {
     if (switchColors) {
         if (aRect->color.r < 1.0f) {
+			/*Visual Studio has a subpar compiler*/
+		#if _MSC_VER
+			aRect->color.r = 1.0f; aRect->color.g = 0.0f; aRect->color.b = 0.0f;
+		#else
             aRect->color = (KFAColorRGBA){1.0f, 0.0f, 0.0f, 1.0f};
+		#endif
         }else{
-            aRect->color = (KFAColorRGBA){0.0f, 0.0f, 1.0f, 1.0f};
+		#if _MSC_VER
+			aRect->color.r = 0.0f; aRect->color.g = 0.0f; aRect->color.b = 1.0f;
+		#else
+			aRect->color = (KFAColorRGBA) { 0.0f, 0.0f, 1.0f, 1.0f };
+		#endif
         }
     }
     
@@ -84,6 +104,11 @@ KFAGeometryRectangle* CreateNewRectangle(KFAPoint startPoint, float width, float
 
 size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type)
 {
+	/*UGH VISUAL STUDIO WHY DO YOU MAKE ME USE SO MUCH PREPROCESSING?!?!?!?*/
+#if _MSC_VER
+	#pragma warning( push )
+	#pragma warning( disable : 4244)
+#endif
     switch (type) {
         case kfaGeometryTypeLine:
         {
@@ -143,4 +168,7 @@ size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type
             break;
     }
     return 0L;
+#if _MSC_VER
+	#pragma warning( pop )
+#endif
 }

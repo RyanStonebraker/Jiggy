@@ -10,7 +10,11 @@
     extern BOOL pressedKeys[128];
 #endif
 
-void HandleKeypresses(void);
+#if __APPLE__
+	void HandleKeypresses(void);
+#elif _WIN32
+	void HandleKeypresses(char c);
+#endif
 
 void glInit(void);
 

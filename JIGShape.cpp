@@ -1,3 +1,4 @@
+#if 0
 <<<<<<< HEAD
 /*
 TEAM UNSIGNED FLOAT
@@ -12,3 +13,4 @@ namespace JIG{
 }
 =======
 >>>>>>> 5bf206cf7005423e18bbeafcb3266c407a46ddb3
+#endif
