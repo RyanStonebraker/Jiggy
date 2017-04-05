@@ -16,7 +16,8 @@ namespace JIG
 	class ArcSlice {
 
 	public:
-		ArcSlice(int r) : /* Shape(........) , */ _radius(r), _arcLength(calculateArcLength(_radius /*, angle? _theta */)) {};
+		//What is happening with the below line?!?! --Collin
+		//ArcSlice(int r) : /* Shape(........) , */ _radius(r), _arcLength(calculateArcLength(_radius /*, angle? _theta */)) {};
 		double getWidth() const;
 
 	private:

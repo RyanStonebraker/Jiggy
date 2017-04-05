@@ -6,7 +6,7 @@ JIGArcSlice.cpp
 This is the .cpp responsible for function pertaining to arc slices and circles
 */
 
-#include "ArcLength.h"
+#include "JIGArcSlice.h"
 //using namespace JIG; syntax
 
 int main()
