@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
 TEAM UNSIGNED FLOAT
 First Draft: 04/04/2017
@@ -20,5 +19,4 @@ namespace JIG{
 	
 }
 #endif /*JIGRect_H_*/
-=======
->>>>>>> 5bf206cf7005423e18bbeafcb3266c407a46ddb3
+
