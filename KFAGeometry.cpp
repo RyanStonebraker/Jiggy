@@ -83,7 +83,6 @@ void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID)
     }else{
         OGL_AssignMemoryToVertexArray(theRect->drawData, kfaGeometryTypeRectangle, theRect->drawDataSize, vaID);
     }
-    rectCenter = theRect->centerPoint;
 }
 
 
@@ -136,11 +135,12 @@ size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type
         {
             KFAGeometryRectangle *theRect = (KFAGeometryRectangle *)input;
             /*Size for color, rotation transforms, and verticies*/
-            long int dataSize = sizeof(KFAColorRGBA)+sizeof(float)+sizeof(KFAPoint)*4;
+            long int dataSize = sizeof(KFAColorRGBA)+sizeof(float)+sizeof(KFAPoint)*4+sizeof(KFAPoint);
             float *objData = (float *)malloc(dataSize);
             
             objData[0] = theRect->color.r; objData[1] = theRect->color.g; objData[2] = theRect->color.b; objData[3] = theRect->color.a;
             objData[4] = theRect->rotation;
+            objData[5] = theRect->centerPoint.x; objData[6] = theRect->centerPoint.y; objData[7] = theRect->centerPoint.z;
             
             objData[VERTEX_OFFSET_2D + 1] = theRect->centerPoint.x + (0.5f*theRect->width);
             objData[VERTEX_OFFSET_2D + 2] = theRect->centerPoint.y + (-0.5*theRect->height);

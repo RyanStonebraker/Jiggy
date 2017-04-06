@@ -9,11 +9,6 @@ This is the .cpp responsible for function pertaining to arc slices and circles
 #include "JIGArcSlice.h"
 //using namespace JIG; syntax
 
-int main()
-{
-
-}
-
 double JIG::ArcSlice::getWidth() const
 {
 	return _boundingBox; //needs editing

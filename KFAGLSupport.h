@@ -23,14 +23,11 @@
 #define KFA_PAN_SPEED 0.2f
 #define KFA_ZOOM_SPEED 0.1f
 #define VERTEX_OFFSET 6
-#define VERTEX_OFFSET_2D 4
+#define VERTEX_OFFSET_2D 7
 
 typedef struct{
     signed int x, y, z;
 }KFAPoint;
-
-/************************************GET RID OF THIS GLOBAL ASAP! SHOVE IT INTO THE VOID POINTER!**************************/
-extern KFAPoint rectCenter;
 
 typedef struct{
     float r, g, b, a;

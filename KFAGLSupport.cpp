@@ -43,10 +43,12 @@ static float translationTransformations[3], scaleTransformations[3], rotationTra
 
 void OGL_InitWGL(void)
 {
+#if _WIN32
 	glGenBuffers = (PFNGLGENBUFFERSPROC)wglGetProcAddress("glGenBuffers");
 	glBindBuffer = (PFNGLBINDBUFFERPROC)wglGetProcAddress("glBindBuffer");
 	glBufferData = (PFNGLBUFFERDATAPROC)wglGetProcAddress("glBufferData");
 	glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)wglGetProcAddress("glDeleteBuffers");
+#endif
 }
 
 void OGL_SetOrthographicMatrix(double leftBound, double rightBound, double topBound, double bottomBound, double backZBound, double frontZBound)
@@ -142,19 +144,9 @@ void OGL_UpdateVertexArrays(void)
                 break;
             case kfaGeometryTypeRectangle:
 			{
-				float *rectData = (float *)vertexBufferObjects[i].dataBlockPtr;
-				printf("%d ", rectCenter.x);
-				glColor4f(*(rectData), *(rectData + 1), *(rectData + 2), *(rectData + 3));
-				glBegin(GL_QUADS);
-				glVertex3f(*(rectData + VERTEX_OFFSET_2D + 1), *(rectData + VERTEX_OFFSET_2D + 2), *(rectData + VERTEX_OFFSET_2D + 3));
-				glVertex3f(*(rectData + VERTEX_OFFSET_2D + 4), *(rectData + VERTEX_OFFSET_2D + 5), *(rectData + VERTEX_OFFSET_2D + 6));
-				glVertex3f(*(rectData + VERTEX_OFFSET_2D + 7), *(rectData + VERTEX_OFFSET_2D + 8), *(rectData + VERTEX_OFFSET_2D + 9));
-				glVertex3f(*(rectData + VERTEX_OFFSET_2D + 10), *(rectData + VERTEX_OFFSET_2D + 11), *(rectData + VERTEX_OFFSET_2D + 12));
-				glEnd();
-				return;
 
 				if (vertexBufferObjects[i].forceUpdate) {
-					//float *rectData = (float *)vertexBufferObjects[i].dataBlockPtr;
+					float *rectData = (float *)vertexBufferObjects[i].dataBlockPtr;
 					/*Set up Vertex Data*/
 					glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[i].vbo);
 					glBufferData(GL_ARRAY_BUFFER, vertexBufferObjects[i].arraySize - sizeof(float)*(VERTEX_OFFSET_2D - 1), rectData + VERTEX_OFFSET_2D + 1, GL_STATIC_DRAW);
@@ -167,9 +159,9 @@ void OGL_UpdateVertexArrays(void)
 					glColor4f(*(rectData), *(rectData + 1), *(rectData + 2), *(rectData + 3));
 
 					/*Set up rotation Data*/
-					glTranslatef(rectCenter.x, rectCenter.y, rectCenter.z);
-					glRotatef(*(rectData + 4), 0.0f, 0.0f, 1.0f);
-					glTranslatef(-rectCenter.x, -rectCenter.y, -rectCenter.z);
+                    glTranslatef(*(rectData + 5), *(rectData + 6), *(rectData + 7));
+                    glRotatef(*(rectData + 4), 0.0f, 0.0f, 1.0f);
+                    glTranslatef(-(*(rectData + 5)), -(*(rectData + 6)), -(*(rectData + 7)));
 
 					glDrawArrays(GL_QUADS, 0, 4);
 					//vertexBufferObjects[i].forceUpdate = NO;
