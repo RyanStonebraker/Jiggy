@@ -1,5 +1,4 @@
-#if 0
-<<<<<<< HEAD
+
 /*
 TEAM UNSIGNED FLOAT
 First Draft: 04/04/2017
@@ -11,6 +10,3 @@ JIGTriangle.cpp
 namespace JIG{
 	
 }
-=======
->>>>>>> 5bf206cf7005423e18bbeafcb3266c407a46ddb3
-#endif
