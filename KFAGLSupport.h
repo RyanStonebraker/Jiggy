@@ -84,7 +84,7 @@ void OGL_TrainCameraToPosition(KFAPoint cameraPosition, KFAPoint subjectPosition
 
 void OGL_InitVertexArrays(void);
 
-void OGL_AssignMemoryToVertexArray(void *data, KFAGeometryType type, long size, int vaID);
+unsigned int OGL_AssignMemoryToVertexArray(void *data, KFAGeometryType type, long size, int vaID);
 
 void OGL_UpdateVertexArrays(void);
 

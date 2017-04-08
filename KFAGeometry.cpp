@@ -6,13 +6,18 @@
 //  Copyright © 2017 Collin Lasley. All rights reserved.
 //
 
+#include <vector>
+
 #include "KFAGeometry.h"
+#include "JIGRect.h"
 #if __APPLE__
 	#include <OpenGL/glext.h>
 	#include <Opengl/gl.h>
 #elif _WIN32
 	#include <GL/GL.h>
 #endif
+
+extern std::vector<JIG::Shape>global_LevelShapes;
 
 static const float axisLinesData[] = {-1000.0f, 0.0f, 0.0f,
     1000.0f, 0.0f, 0.0f,
@@ -21,16 +26,14 @@ static const float axisLinesData[] = {-1000.0f, 0.0f, 0.0f,
 
 static float *axisLines;
 
-static KFAGeometryRectangle *aRect;
-static unsigned int nextVertexBuffer = 0;
-
 void InitGeometry(void)
 {
     axisLines = (float *)malloc(sizeof(KFAPoint)*4);
     memcpy(axisLines, &axisLinesData, sizeof(axisLinesData));
-    OGL_AssignMemoryToVertexArray(axisLines, kfaGeometryTypeLine, sizeof(axisLinesData), nextVertexBuffer);
-    nextVertexBuffer++;
+    OGL_AssignMemoryToVertexArray(axisLines, kfaGeometryTypeLine, sizeof(axisLinesData), 0);
+    return;
     
+#if 0
 #if _MSC_VER
 	/*C++, ladies and gentlemen: supports every programming feature on the planet, including ones barely anybody wants, but can't even support C99 designated initializers*/
 	KFAPoint initialPoint; initialPoint.x = 0; initialPoint.y = 0; initialPoint.z = 200;
@@ -40,10 +43,14 @@ void InitGeometry(void)
     aRect = CreateNewRectangle((KFAPoint){0,0, 200}, 100.0f, 100.0f, 0.0f, (KFAColorRGBA){1.0f, 1.0f, 1.0f, 1.0f});
 #endif
     SubmitRectangleForRender(aRect, -1);
+#endif
 }
 
 void UpdateGeometry(bool switchColors, int horizontalVelocity, int verticalVelocity, float rotation)
 {
+    
+    
+#if 0
     if (switchColors) {
         if (aRect->color.r < 1.0f) {
 			/*Visual Studio has a subpar compiler*/
@@ -67,6 +74,7 @@ void UpdateGeometry(bool switchColors, int horizontalVelocity, int verticalVeloc
     aRect->rotation += rotation;
     
     SubmitRectangleForRender(aRect, 1);
+#endif
 }
 
 void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID)
@@ -78,8 +86,7 @@ void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID)
     theRect->drawDataSize = GeometricTypeToDataBlock(theRect, &(theRect->drawData), kfaGeometryTypeRectangle);
     
     if (vaID == -1){
-        OGL_AssignMemoryToVertexArray(theRect->drawData, kfaGeometryTypeRectangle, theRect->drawDataSize, nextVertexBuffer);
-        nextVertexBuffer++;
+        OGL_AssignMemoryToVertexArray(theRect->drawData, kfaGeometryTypeRectangle, theRect->drawDataSize, -1);
     }else{
         OGL_AssignMemoryToVertexArray(theRect->drawData, kfaGeometryTypeRectangle, theRect->drawDataSize, vaID);
     }
@@ -98,6 +105,27 @@ KFAGeometryRectangle* CreateNewRectangle(KFAPoint startPoint, float width, float
     newRectangle->rotation = rotationAngle;
     
     return newRectangle;
+}
+
+KFAPoint JIGMakePoint(signed int x, signed int y, signed int z)
+{
+    KFAPoint returnPoint;
+    
+    returnPoint.x = x;
+    returnPoint.y = y;
+    returnPoint.z = z;
+    return returnPoint;
+}
+
+KFAColorRGBA JIGMakeColor(float r, float g, float b, float a)
+{
+    KFAColorRGBA returnColor;
+    
+    returnColor.r = r;
+    returnColor.g = g;
+    returnColor.b = b;
+    returnColor.a = a;
+    return returnColor;
 }
 
 

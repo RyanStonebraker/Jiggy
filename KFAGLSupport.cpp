@@ -87,18 +87,33 @@ void OGL_InitVertexArrays(void)
     }
 }
 
-void OGL_AssignMemoryToVertexArray(void *data, KFAGeometryType type, long size, int vaID)
+unsigned int OGL_AssignMemoryToVertexArray(void *data, KFAGeometryType type, long size, int vaID)
 {
     if (vaID >= NUM_VERTEX_ARRAYS) {
-        printf("OGL_AssignMemoryToVertexArrayRange: varID Passed > Number of VARs!");
+        printf("OGL_AssignMemoryToVertexArrayRange: vaID Passed > Number of VARs!");
         exit(1);
     }
+    
+    if (vaID == -1) {
+        for (int i = 0; i < NUM_VERTEX_ARRAYS; i++) {
+            if (!vertexBufferObjects[i].activated) {
+                vaID = i;
+                goto foundFreeVertexArray;
+            }
+        }
+        printf("OGL_AssignMemoryToVertexArrayRange: out of vertex arrays!");
+        exit(1);
+    }
+    
+foundFreeVertexArray:
     
     vertexBufferObjects[vaID].arraySize = size;
     vertexBufferObjects[vaID].dataBlockPtr = data;
     vertexBufferObjects[vaID].type = type;
     vertexBufferObjects[vaID].forceUpdate = true;
     vertexBufferObjects[vaID].activated = true;
+    
+    return vaID;
 }
 
 void OGL_UpdateVertexArrays(void)

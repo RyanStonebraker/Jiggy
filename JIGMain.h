@@ -16,8 +16,18 @@
 	void HandleKeypresses(char c);
 #endif
 
+#include <vector>
+#include <memory>
+#include "JIGShape.h"
+
+extern std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
+
 void glInit(void);
 
 void jiggyInit(void);
 
+void jiggyInitTestLevel();
+
 void jiggyRenderFrame(void);
+
+void jiggyLevelUpdate(void);

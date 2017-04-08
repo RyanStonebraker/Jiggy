@@ -6,7 +6,3 @@ This .cpp file is reponsible for creating the base shape class
 JIGShape.cpp
 */
 #include "JIGShape.h"
-namespace JIG{
-	
-}
-

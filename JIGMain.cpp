@@ -15,24 +15,26 @@
 #include "KFAData.h"
 #include "JIGMain.h"
 #include "KFAGeometry.h"
+#include "JIGRect.h"
 
+std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
 #if __APPLE__
 void HandleKeypresses(void)
 {
     static bool shouldChangeColor = NO;
-    int horzVelocity = 0, vertVelocity = 0, rotation = 0;
+    int horizVelocity = 0, vertVelocity = 0, rotation = 0;
     
     if (pressedKeys[kVK_ANSI_W]) {
         vertVelocity += 10;
     }
     if (pressedKeys[kVK_ANSI_A]) {
-        horzVelocity -= 10;
+        horizVelocity -= 10;
     }
     if (pressedKeys[kVK_ANSI_S]) {
         vertVelocity -= 10;
     }
     if (pressedKeys[kVK_ANSI_D]) {
-        horzVelocity += 10;
+        horizVelocity += 10;
     }
     if (pressedKeys[kVK_ANSI_C]) {
         shouldChangeColor = !shouldChangeColor;
@@ -44,7 +46,8 @@ void HandleKeypresses(void)
         rotation += 5;
     }
     
-    UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
+    //UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
+    global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
     
     if (pressedKeys[kVK_ANSI_I]) {
         OGL_AdjustCamera((float[]){KFA_ZOOM_SPEED, KFA_ZOOM_SPEED, KFA_ZOOM_SPEED}, KFA_CAMERA_ZOOM);
@@ -81,7 +84,8 @@ void HandleKeypresses(char c)
 		rotation += 5;
 	}
 
-	UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
+	//UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
+    
 }
 #endif
 
@@ -108,6 +112,7 @@ void jiggyInit(void)
     glInit();
     
     InitGeometry();
+    jiggyInitTestLevel();
 }
 
 void jiggyRenderFrame(void)
@@ -117,4 +122,14 @@ void jiggyRenderFrame(void)
 #endif
     OGL_ApplyCameraTransformations();
     OGL_UpdateVertexArrays();
+}
+
+void jiggyInitTestLevel()
+{
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
+}
+
+void jiggyLevelUpdate(void)
+{
+    
 }
