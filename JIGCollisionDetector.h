@@ -1,13 +1,13 @@
 /*
-JIGColisionDetector.h
+JIGCollisionDetector.h
 Mark Underwood
 4.4.17
 Contains declarations for the collision detector class
 */
 
 
-#ifndef COLLISION_H
-#define COLLISION_H
+#ifndef JIGCOLLISIONDETECTOR_H
+#define JIGCOLLISIONDETECTOR_H
 
 #include <unordered_map>
 #include <string>
@@ -55,11 +55,11 @@ class CollisionDetector
 public:
 	CollisionDetector();
 	void addToMatrix(std::string, unsigned);
-	CollisionDetector(std::vector<Shape>);
-	void detectCollisions(Shape &, Shape &);
-	void getAdjMatrix();
+	CollisionDetector(Shape &, std::vector<Shape &>);
+	void detectCollisions(Shape &, std::vector<Shape &>);
+	std::unordered_map<std::string, unsigned> getAdjacent();
 private:
-	std::unordered_map<std::string, unsigned> _matrix;
+	static std::unordered_map<std::string, unsigned> _matrix;
 	std::vector<Shape> _pieces;
 };
 

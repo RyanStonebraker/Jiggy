@@ -5,24 +5,36 @@ Mark Underwood
 Definitions for collision detector class
 */
 
-#include "Collision.h"
+#include "JIGCollisionDetector.h"
 using std::make_pair;
 
 
 CollisionDetector::CollisionDetector()
 {}
 
-CollisionDetector::CollisionDetector(std::vector<Shape> pieces)
+CollisionDetector::CollisionDetector(Shape &centralPiece, std::vector<Shape &> otherPieces) 
 {
+	detectCollisions(centralPiece, otherPieces);
+}
 
-
-	if ((s2.xpos() <= (s1.xpos() + s1.width)) && (s2.xpos() >= (s1.xpos() - s2.xpos)) && (s2.ypos() <= (s1.ypos() + s1.height())) && (s2.ypos() >= (s1.ypos - s2.height())))
+void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape &> otherPieces) //Find all collisions between one shape and the shapes around it.
+{
+	_matrix.insert({ "Shape", 0 });
+	for (auto p : otherPieces)
 	{
+		bool rightX(p.xpos() <= (centralPiece.xpos() + centralPiece.width()));
+		bool leftX(p.xpos() >= (centralPiece.xpos() - p.xpos()));
+		bool aboveY(p.ypos() <= (centralPiece.ypos() + centralPiece.height()));
+		bool belowY(p.ypos() >= (centralPiece.ypos() - p.height()));
 
+		if (leftX && rightX && aboveY && belowY)
+			{
+				++_matrix["Shape"];
+			}
 	}
 }
 
-void CollisionDetector::getAdjMatrix()
+std::unordered_map<std::string, unsigned> CollisionDetector::getAdjacent()
 {
-
+	return _matrix;
 }
