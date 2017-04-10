@@ -10,6 +10,13 @@
     #include <Carbon/Carbon.h>
     #include <OpenGL/OpenGL.h>
     #include <OpenGL/gl.h>
+#elif _WIN32
+	#ifndef WIN32_LEAN_AND_MEAN
+		#define WIN32_LEAN_AND_MEAN
+	#endif
+	#define KB_MOST_SIGNIFICANT_BIT 0x8000
+	#include <windows.h>
+	#pragma comment(lib,"user32.lib")
 #endif
 
 #include "KFAData.h"
@@ -57,36 +64,62 @@ void HandleKeypresses(void)
     }
 }
 #elif _WIN32
-void HandleKeypresses(char c)
-{
-	static bool shouldChangeColor = false;
-	int horzVelocity = 0, vertVelocity = 0, rotation = 0;
 
-	if (c == 'W') {
+#if 0
+void HandleKeypresses(void)
+{
+		float horizVelocity = 0, vertVelocity = 0; float rotation = 0.0f;
+		short int virtualKeyState = 0;
+
+		if (GetKeyState((int)'W') & KB_MOST_SIGNIFICANT_BIT) {
+			vertVelocity += 10;
+		}
+		if (GetKeyState((int)'A') & KB_MOST_SIGNIFICANT_BIT) {
+			horizVelocity -= 10;
+		}
+		if (GetKeyState((int)'S') & KB_MOST_SIGNIFICANT_BIT) {
+			vertVelocity -= 10;
+		}
+		if (GetKeyState((int)'D') & KB_MOST_SIGNIFICANT_BIT) {
+			horizVelocity += 10;
+		}
+		if (GetKeyState((int)',') & KB_MOST_SIGNIFICANT_BIT) {
+			rotation -= 5;
+		}
+		if (GetKeyState((int)'.') & KB_MOST_SIGNIFICANT_BIT) {
+			rotation += 5;
+		}
+
+	global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
+}
+#endif
+
+void HandleKeypresses(void)
+{
+	int horizVelocity = 0, vertVelocity = 0, rotation = 0;
+
+	if (pressedKeys['W']) {
 		vertVelocity += 10;
 	}
-	if (c == 'A') {
-		horzVelocity -= 10;
+	if (pressedKeys['A']) {
+		horizVelocity -= 10;
 	}
-	if (c == 'S') {
+	if (pressedKeys['S']) {
 		vertVelocity -= 10;
 	}
-	if (c == 'D') {
-		horzVelocity += 10;
+	if (pressedKeys['D']) {
+		horizVelocity += 10;
 	}
-	if (c == 'C') {
-		shouldChangeColor = !shouldChangeColor;
-	}
-	if (c == ',') {
+	if (pressedKeys[',']) {
 		rotation -= 5;
 	}
-	if (c == '.') {
+	if (pressedKeys['.']) {
 		rotation += 5;
 	}
 
-	//UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
-    
+	global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
 }
+
 #endif
 
 void glInit(void)
@@ -126,7 +159,10 @@ void jiggyRenderFrame(void)
 
 void jiggyInitTestLevel()
 {
+	//std::unique_ptr<JIG::Rectangle> rectPtr = std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f)));
+	//global_LevelShapes.push_back(rectPtr);
     global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
+	global_LevelShapes[0]->submitForRender();
 }
 
 void jiggyLevelUpdate(void)

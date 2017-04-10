@@ -16,6 +16,8 @@
 
 #include "JIGMain.h"
 
+bool pressedKeys[0x100] = {0};
+
 
 enum {
 	PAN = 1,				/* pan state bit */
@@ -75,7 +77,9 @@ LONG WINAPI WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	static int omx, omy, mx, my;
 
 	switch (uMsg) {
+	case WM_TIMER:
 	case WM_PAINT:
+		HandleKeypresses();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glPushMatrix();
 		jiggyRenderFrame();
@@ -93,10 +97,11 @@ LONG WINAPI WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_KEYDOWN:
-	{
-		char c = wParam;
-		HandleKeypresses(c);
-	}
+		pressedKeys[wParam & 0xFF] = true;
+		break;
+
+	case WM_KEYUP:
+		pressedKeys[wParam & 0xFF] = false;
 		break;
 
 	case WM_PALETTECHANGED:
@@ -276,8 +281,10 @@ int APIENTRY WinMain(HINSTANCE hCurrentInst, HINSTANCE hPreviousInst,
 
 	ShowWindow(hWnd, nCmdShow);
 
+	SetTimer(hWnd, 54449, 17, (TIMERPROC)NULL);
+
 	while (GetMessage(&msg, hWnd, 0, 0)) {
-		RedrawWindow(hWnd, NULL, NULL, RDW_INTERNALPAINT);
+		//RedrawWindow(hWnd, NULL, NULL, RDW_INTERNALPAINT);
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}

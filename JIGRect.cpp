@@ -18,9 +18,22 @@ JIG::Rectangle::Rectangle(KFAPoint centerPoint, float width, float height, float
     this->vertexArrayID = vaID;
 }
 
+JIG::Rectangle::Rectangle(const JIG::Rectangle &copyRect)
+{
+	this->_width = copyRect._width;
+	this->_height = copyRect._height;
+	this->_centerPoint = copyRect._centerPoint;
+	this->_color = copyRect._color;
+	/*Do NOT change the following two lines! The Rectangle does NOT OWN the drawData pointer!!!*/
+	/*The KFAGLSupport library maintains a pointer, so it will handle freeing*/
+	this->_drawDataSize = copyRect._drawDataSize;
+	this->drawData = copyRect.drawData;
+	this->_rotation = copyRect._rotation;
+	this->vertexArrayID = copyRect.vertexArrayID;
+}
+
 void JIG::Rectangle::submitForRender(void)
 {
-    ;
     if (this->_drawDataSize != 0) {
         free(this->drawData);
         this->_drawDataSize = 0;
@@ -36,6 +49,10 @@ void JIG::Rectangle::submitForRender(void)
 
 void JIG::Rectangle::createDataBlock(void)
 {
+#if _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4244)
+#endif
     long int dataSize = sizeof(KFAColorRGBA)+sizeof(float)+sizeof(KFAPoint)*4+sizeof(KFAPoint);
     float *objData = (float *)malloc(dataSize);
     
@@ -61,6 +78,9 @@ void JIG::Rectangle::createDataBlock(void)
     
     this->drawData = objData;
     this->_drawDataSize = dataSize;
+#if _MSC_VER
+#pragma warning( pop )
+#endif
 }
 
 void JIG::Rectangle::updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation)
@@ -80,6 +100,6 @@ void JIG::Rectangle::updateGeometry(int horizontalVelocity, int verticalVelocity
 
 JIG::Rectangle::~Rectangle()
 {
-    OGL_DisposeVertexArray(this->vertexArrayID);
+	OGL_DisposeVertexArray(this->vertexArrayID);
 }
 

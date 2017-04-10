@@ -14,6 +14,7 @@ namespace JIG{
     class Rectangle : public Shape {
 	public:
         Rectangle(KFAPoint centerPoint, float width, float height, float rotationAngle, KFAColorRGBA color, int vaID = -1);
+		Rectangle(const Rectangle &copyRect);
         void virtual submitForRender(void);
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation);
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation, KFAColorRGBA color);

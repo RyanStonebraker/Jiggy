@@ -6,8 +6,6 @@
 //  Copyright © 2017 Collin Lasley. All rights reserved.
 //
 
-//#include <stdio.h>
-
 #include <stdio.h>
 
 #if __APPLE__
@@ -204,6 +202,8 @@ void OGL_DisposeVertexArrays(void)
 
 void OGL_DisposeVertexArray(int vaID)
 {
+	if (vaID == -1)
+		return;
     if (vertexBufferObjects[vaID].dataBlockPtr != NULL) {
         glDeleteBuffers(1, &vertexBufferObjects[vaID].vbo);
         free(vertexBufferObjects[vaID].dataBlockPtr);

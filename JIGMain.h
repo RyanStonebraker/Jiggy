@@ -8,12 +8,14 @@
 
 #if __APPLE__
     extern BOOL pressedKeys[128];
+#elif _WIN32
+	extern bool pressedKeys[0x100];
 #endif
 
 #if __APPLE__
 	void HandleKeypresses(void);
 #elif _WIN32
-	void HandleKeypresses(char c);
+	void HandleKeypresses(void);
 #endif
 
 #include <vector>
