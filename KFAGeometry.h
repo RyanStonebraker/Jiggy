@@ -24,7 +24,6 @@ void SubmitRectangleForRender(KFAGeometryRectangle *theRect, signed int vaID);
 
 KFAGeometryRectangle* CreateNewRectangle(KFAPoint startPoint, float width, float height, float rotationAngle, KFAColorRGBA color);
 
-/*Visual Studio's compiler is dumb.*/
 KFAPoint JIGMakePoint(signed int x, signed int y, signed int z);
 
 KFAColorRGBA JIGMakeColor(float r, float g, float b, float a);

@@ -284,7 +284,6 @@ int APIENTRY WinMain(HINSTANCE hCurrentInst, HINSTANCE hPreviousInst,
 	SetTimer(hWnd, 54449, 17, (TIMERPROC)NULL);
 
 	while (GetMessage(&msg, hWnd, 0, 0)) {
-		//RedrawWindow(hWnd, NULL, NULL, RDW_INTERNALPAINT);
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}

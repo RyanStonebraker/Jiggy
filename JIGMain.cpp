@@ -53,7 +53,6 @@ void HandleKeypresses(void)
         rotation += 5;
     }
     
-    //UpdateGeometry(shouldChangeColor, horzVelocity, vertVelocity, (float)rotation);
     global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
     
     if (pressedKeys[kVK_ANSI_I]) {
@@ -64,35 +63,6 @@ void HandleKeypresses(void)
     }
 }
 #elif _WIN32
-
-#if 0
-void HandleKeypresses(void)
-{
-		float horizVelocity = 0, vertVelocity = 0; float rotation = 0.0f;
-		short int virtualKeyState = 0;
-
-		if (GetKeyState((int)'W') & KB_MOST_SIGNIFICANT_BIT) {
-			vertVelocity += 10;
-		}
-		if (GetKeyState((int)'A') & KB_MOST_SIGNIFICANT_BIT) {
-			horizVelocity -= 10;
-		}
-		if (GetKeyState((int)'S') & KB_MOST_SIGNIFICANT_BIT) {
-			vertVelocity -= 10;
-		}
-		if (GetKeyState((int)'D') & KB_MOST_SIGNIFICANT_BIT) {
-			horizVelocity += 10;
-		}
-		if (GetKeyState((int)',') & KB_MOST_SIGNIFICANT_BIT) {
-			rotation -= 5;
-		}
-		if (GetKeyState((int)'.') & KB_MOST_SIGNIFICANT_BIT) {
-			rotation += 5;
-		}
-
-	global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
-}
-#endif
 
 void HandleKeypresses(void)
 {
@@ -159,8 +129,6 @@ void jiggyRenderFrame(void)
 
 void jiggyInitTestLevel()
 {
-	//std::unique_ptr<JIG::Rectangle> rectPtr = std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f)));
-	//global_LevelShapes.push_back(rectPtr);
     global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
 	global_LevelShapes[0]->submitForRender();
 }

@@ -69,7 +69,6 @@ void OGL_TrainCameraToPosition(KFAPoint cameraPosition, KFAPoint subjectPosition
 
 void OGL_InitVertexArrays(void)
 {
-	;
     for (int i = 0; i < NUM_VERTEX_ARRAYS; i++) {
         vertexBufferObjects[i].arraySize= 0;
         vertexBufferObjects[i].dataBlockPtr = NULL;

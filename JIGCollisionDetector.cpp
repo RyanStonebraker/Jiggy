@@ -5,19 +5,20 @@ Mark Underwood
 Definitions for collision detector class
 */
 
+#if 0
 #include "JIGCollisionDetector.h"
 using std::make_pair;
 
 
-CollisionDetector::CollisionDetector()
+JIG::CollisionDetector::CollisionDetector()
 {}
 
-CollisionDetector::CollisionDetector(Shape &centralPiece, std::vector<Shape &> otherPieces) 
+JIG::CollisionDetector::CollisionDetector(JIG::Shape &centralPiece, std::vector<JIG::Shape &> otherPieces)
 {
 	detectCollisions(centralPiece, otherPieces);
 }
 
-void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape &> otherPieces) //Find all collisions between one shape and the shapes around it.
+void JIG::CollisionDetector::detectCollisions(JIG::Shape &centralPiece, std::vector<JIG::Shape &> otherPieces) //Find all collisions between one shape and the shapes around it.
 {
 	_matrix.insert({ "Shape", 0 });
 	for (auto p : otherPieces)
@@ -38,3 +39,4 @@ std::unordered_map<std::string, unsigned> CollisionDetector::getAdjacent()
 {
 	return _matrix;
 }
+#endif

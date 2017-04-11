@@ -35,7 +35,6 @@ void InitGeometry(void)
     
 #if 0
 #if _MSC_VER
-	/*C++, ladies and gentlemen: supports every programming feature on the planet, including ones barely anybody wants, but can't even support C99 designated initializers*/
 	KFAPoint initialPoint; initialPoint.x = 0; initialPoint.y = 0; initialPoint.z = 200;
 	KFAColorRGBA initialColor; initialColor.r = 1.0f; initialColor.g = 1.0; initialColor.b = 1.0f; initialColor.a = 1.0f;
 	aRect = CreateNewRectangle(initialPoint, 100.0f, 100.0f, 0.0f, initialColor);
@@ -131,7 +130,6 @@ KFAColorRGBA JIGMakeColor(float r, float g, float b, float a)
 
 size_t GeometricTypeToDataBlock(void *input, void **output, KFAGeometryType type)
 {
-	/*UGH VISUAL STUDIO WHY DO YOU MAKE ME USE SO MUCH PREPROCESSING?!?!?!?*/
 #if _MSC_VER
 	#pragma warning( push )
 	#pragma warning( disable : 4244)
