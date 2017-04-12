@@ -6,15 +6,13 @@ Definitions for collision detector class
 */
 
 #include "JIGCollisionDetector.h"
+#include "JIGShape.h"
 #include <cmath>
 using std::sin;
 using std::cos;
-using std::make_pair;
 using namespace JIG;
 
 #define PI 3.14159265
-
-
 
 CollisionDetector::CollisionDetector()
 {}
@@ -24,6 +22,7 @@ CollisionDetector::CollisionDetector(Shape &centralPiece, std::vector<Shape> &ot
 	detectCollisions(centralPiece, otherPieces);
 }
 
+#if 0
 void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape> &otherPieces) //Find all collisions between one shape and the shapes around it.
 {
 	_matrix.insert({ "Shape", 0 }); //NOTE: will every shape have an identifier stored in it?
@@ -74,6 +73,7 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape>
 			}
 	}
 }
+#endif
 
 std::unordered_map<std::string, unsigned> CollisionDetector::getMatrix()
 {

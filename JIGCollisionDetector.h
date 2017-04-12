@@ -9,9 +9,11 @@ Contains declarations for the collision detector class
 #ifndef JIGCOLLISIONDETECTOR_H
 #define JIGCOLLISIONDETECTOR_H
 
+#include "JIGShape.h"
 #include <unordered_map>
 #include <string>
 #include <vector>
+#if 0
 class Shape //Had to write this so I could write stuff with shapes before the actual JIGShape class is written 
 {
 
@@ -61,6 +63,7 @@ public:
 	OtherShape(int width, int height) : Shape(width, height)
 	{}
 };
+#endif
 
 namespace JIG 
 {
