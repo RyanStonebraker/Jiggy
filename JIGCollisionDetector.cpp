@@ -14,6 +14,8 @@ using namespace JIG;
 
 #define PI 3.14159265
 
+
+
 CollisionDetector::CollisionDetector()
 {}
 
@@ -78,6 +80,7 @@ std::unordered_map<std::string, unsigned> CollisionDetector::getMatrix()
 	return _matrix;
 }
 
+/*
 int main()
 {
 	OtherShape s1(2, 3);
@@ -94,3 +97,4 @@ int main()
 
 	return 0;
 }
+*/

@@ -12,7 +12,6 @@ Contains declarations for the collision detector class
 #include <unordered_map>
 #include <string>
 #include <vector>
-
 class Shape //Had to write this so I could write stuff with shapes before the actual JIGShape class is written 
 {
 
@@ -79,6 +78,5 @@ namespace JIG
 		std::vector<Shape> _pieces;
 	};
 }
-
 #endif // !COLLISION_H
 
