@@ -6,7 +6,6 @@ Contains declarations for the collision detector class
 */
 
 
-#if 0
 #ifndef JIGCOLLISIONDETECTOR_H
 #define JIGCOLLISIONDETECTOR_H
 
@@ -14,24 +13,72 @@ Contains declarations for the collision detector class
 #include <string>
 #include <vector>
 
-#include "JIGShape.h"
+class Shape //Had to write this so I could write stuff with shapes before the actual JIGShape class is written 
+{
 
-namespace JIG{
-class CollisionDetector
+public:
+	Shape() : _width(1), _height(1), _xpos(0), _ypos(0)
+	{}
+
+	Shape(int width, int height) : _width(width), _height(height)
+	{}
+
+	int width()
+	{
+		return _width;
+	}
+
+	int height()
+	{
+		return _height;
+	}
+
+	int xpos()
+	{
+		return _xpos;
+	}
+
+	int ypos()
+	{
+		return _ypos;
+	}
+
+	int angle()
+	{
+		return _angle;
+	}
+
+protected:
+	int _width;
+	int _height;
+	int _xpos;
+	int _ypos;
+	int _angle;
+};
+
+class OtherShape : public Shape
 {
 public:
-	CollisionDetector();
-	void addToMatrix(std::string, unsigned);
-    CollisionDetector(JIG::Shape &, std::vector<JIG::Shape &>);
-    void detectCollisions(JIG::Shape &, std::vector<JIG::Shape &>);
-	std::unordered_map<std::string, unsigned> getAdjacent();
-private:
-	static std::unordered_map<std::string, unsigned> _matrix;
-    std::vector<JIG::Shape> _pieces;
+	OtherShape(int width, int height) : Shape(width, height)
+	{}
 };
+
+namespace JIG 
+{
+
+	class CollisionDetector
+	{
+	public:
+		CollisionDetector();
+		void addToMatrix(std::string, unsigned);
+		CollisionDetector(Shape &, std::vector<Shape> &);
+		void detectCollisions(Shape &, std::vector<Shape> &);
+		std::unordered_map<std::string, unsigned> getMatrix();
+	private:
+		static std::unordered_map<std::string, unsigned> _matrix;
+		std::vector<Shape> _pieces;
+	};
 }
 
-
 #endif // !COLLISION_H
-#endif
 
