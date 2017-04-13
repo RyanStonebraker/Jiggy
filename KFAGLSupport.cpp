@@ -31,9 +31,6 @@
 #include "KFAGLSupport.h"
 
 #define NUM_VERTEX_ARRAYS 2
-#define RECT_PRISM_VERTEX_COUNT 24
-
-KFAPoint rectCenter;
 
 static VertexArrayType vertexBufferObjects[NUM_VERTEX_ARRAYS];
 
@@ -182,6 +179,60 @@ void OGL_UpdateVertexArrays(void)
 				}
 				break;
 			}
+            case kfaGeometryTypeArc:
+            {
+                const unsigned int numberSegments = 60;
+                const float originAngle = 0.0f;
+                
+                if (vertexBufferObjects[i].forceUpdate) {
+                    float *arcData = (float *)vertexBufferObjects[i].dataBlockPtr;
+                    /*Set up Vertex Data*/
+                    /*glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[i].vbo);
+                    glBufferData(GL_ARRAY_BUFFER, vertexBufferObjects[i].arraySize - sizeof(float)*(VERTEX_OFFSET_2D - 1), arcData + VERTEX_OFFSET_2D + 1, GL_STATIC_DRAW);
+                    
+                    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[i].vbo);
+                    glVertexPointer(3, GL_FLOAT, 0, NULL);
+                    glEnableClientState(GL_VERTEX_ARRAY);*/
+                    
+                    /*Set up color data*/
+                    glColor4f(*(arcData), *(arcData + 1), *(arcData + 2), *(arcData + 3));
+                    
+                    /*Set up rotation Data*/
+                    glTranslatef(*(arcData + 5), *(arcData + 6), *(arcData + 7));
+                    glRotatef(*(arcData + 4), 0.0f, 0.0f, 1.0f);
+                    glTranslatef(-(*(arcData + 5)), -(*(arcData + 6)), -(*(arcData + 7)));
+                    
+                    /*Drawing, the old fashioned way*/
+                    float theta = arcData[VERTEX_OFFSET_2D+2] / float(numberSegments - 1);
+                    float tangetial_factor = tanf(theta);
+                    float radial_factor = cosf(theta);
+                    
+                    float x = arcData[VERTEX_OFFSET_2D+1] * cosf(originAngle);//we now start at the start angle
+                    float y = arcData[VERTEX_OFFSET_2D+1] * sinf(originAngle);
+                    
+                    glBegin(GL_LINE_STRIP);//since the arc is not a closed curve, this is a strip now
+                    for(int ii = 0; ii < numberSegments; ii++)
+                    {
+                        glVertex3f(x + arcData[5], y + arcData[6], arcData[7]);
+                        
+                        float tx = -y; 
+                        float ty = x; 
+                        
+                        x += tx * tangetial_factor; 
+                        y += ty * tangetial_factor; 
+                        
+                        x *= radial_factor; 
+                        y *= radial_factor;
+                    } 
+                    glEnd();
+                    
+                    //glDrawArrays(GL_QUADS, 0, 4);
+                    //vertexBufferObjects[i].forceUpdate = NO;
+                }else{
+                    glDrawArrays(GL_QUADS, 0, 4);
+                }
+            }
+                break;
             default:
                 /*Error Junk*/
                 break;

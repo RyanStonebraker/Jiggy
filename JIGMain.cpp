@@ -23,6 +23,7 @@
 #include "JIGMain.h"
 #include "KFAGeometry.h"
 #include "JIGRect.h"
+#include "JIGArcSlice.h"
 
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
 #if __APPLE__

@@ -35,7 +35,8 @@ typedef struct{
 
 typedef enum : unsigned int {
     kfaGeometryTypeRectangle,
-    kfaGeometryTypeLine
+    kfaGeometryTypeLine,
+    kfaGeometryTypeArc
 }KFAGeometryType;
 
 typedef struct{
@@ -43,14 +44,6 @@ typedef struct{
     float length;
     float rotations[3];
 }KFAGeometryLine;
-
-typedef struct{
-    KFAGeometryLine centerLine;
-    KFAColorRGBA color;
-    float width, height;
-    void *drawData;
-    size_t drawDataSize;
-}KFAGeometryRectangularPrism;
 
 typedef struct{
     KFAPoint centerPoint;
