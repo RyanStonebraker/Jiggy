@@ -6,3 +6,20 @@ This .cpp file is reponsible for creating the base shape class
 JIGShape.cpp
 */
 #include "JIGShape.h"
+
+using namespace JIG;
+
+float Shape::angle()
+{
+	return _rotation;
+}
+
+KFAPoint Shape::centerPoint()
+{
+	return _centerPoint;
+}
+
+int Shape::getVertexArrayID()
+{
+	return vertexArrayID;
+}

@@ -22,7 +22,11 @@ namespace JIG{
         void virtual submitForRender(void) = 0;
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation) = 0;
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation, KFAColorRGBA color) = 0;
-        
+		int virtual width() = 0;
+		int virtual height() = 0;
+		float angle();
+		KFAPoint centerPoint();
+		int getVertexArrayID();
     protected:
         KFAPoint _centerPoint;
         KFAColorRGBA _color;
