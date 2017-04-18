@@ -50,7 +50,7 @@ int projectedWidth(Shape &s)
 	}
 	return -1;
 }
-
+/*
 void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape> &otherPieces) //Find all collisions between one shape and the shapes around it.
 {
 	_matrix.insert({ centralPiece.getVertexArrayID(), 0 });
@@ -104,7 +104,7 @@ std::unordered_map<signed, unsigned> CollisionDetector::getMatrix()
 	return _matrix;
 }
 
-/*
+
 int main()
 {
 	OtherShape s1(2, 3);

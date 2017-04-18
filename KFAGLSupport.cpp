@@ -12,6 +12,7 @@
     #include <OpenGL/OpenGL.h>
     #include <OpenGL/gl.h>
 #elif _WIN32
+	#include <math.h>
 	#include <windows.h>
 	#include <GL/gl.h>
 	#include <GL/GLU.h>
