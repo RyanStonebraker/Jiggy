@@ -18,6 +18,8 @@ using std::atan;
 
 using namespace JIG;
 
+std::unordered_map<signed, unsigned> CollisionDetector::_matrix;
+
 CollisionDetector::CollisionDetector()
 {}
 
@@ -28,7 +30,7 @@ CollisionDetector::CollisionDetector(Shape &centralPiece, std::vector<Shape> &ot
 
 float findPhase(float r, float s, float w)
 {
-	return std::asin((w + 0.5*(r - s) - r) / (0.5*(r - s)));
+	return std::asin((w + float(0.5)*(r - s) - r) / (float(0.5)*(r - s)));
 }
 
 float projectedWidth(Shape &s, float angle)
@@ -40,12 +42,12 @@ float projectedWidth(Shape &s, float angle)
 	if (halfWidth <= halfHeight)
 	{
 		phase = findPhase(rectRadius, halfWidth, halfWidth);
-		return 0.5*(rectRadius - halfWidth)*sin(angle + phase) + 0.5*rectRadius + 0.5*halfWidth;
+		return float(0.5)*(rectRadius - halfWidth)*sin(angle + phase) + float(0.5)*rectRadius + float(0.5)*halfWidth;
 	}
 	else
 	{
 		phase = findPhase(rectRadius, halfHeight, halfWidth);
-		return 0.5*(rectRadius - halfHeight)*sin(angle + phase) + 0.5*rectRadius + 0.5*halfHeight;
+		return float(0.5)*(rectRadius - halfHeight)*sin(angle + phase) + float(0.5)*rectRadius + float(0.5)*halfHeight;
 	}
 
 	return -1;
@@ -53,7 +55,8 @@ float projectedWidth(Shape &s, float angle)
 
 void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape> &otherPieces) //Find all collisions between one shape and the shapes around it.
 {
-	_matrix.insert({ centralPiece.getVertexArrayID(), 0 });
+	
+	CollisionDetector::_matrix.insert({ centralPiece.getVertexArrayID(), 0 });
 	
 	for (unsigned int i = 0; i < otherPieces.size(); ++i)
 	{
@@ -94,7 +97,7 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape>
 		bool thereWasACollision = collisionOne && collisionTwo;
 		if (thereWasACollision)
 			{
-				++_matrix[centralPiece.getVertexArrayID()];
+				++CollisionDetector::_matrix[centralPiece.getVertexArrayID()];
 			}
 	}
 }
