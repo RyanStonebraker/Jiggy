@@ -12,15 +12,11 @@ using std::sin;
 using std::cos;
 using std::sqrt;
 using std::atan;
-#include <memory>
-using std::unique_ptr;
-using std::make_unique;
+
 #include <vector>
 #include <map>
 
 using namespace JIG;
-
-#define PI 3.14159265
 
 CollisionDetector::CollisionDetector()
 {}
@@ -30,29 +26,31 @@ CollisionDetector::CollisionDetector(Shape &centralPiece, std::vector<Shape> &ot
 	detectCollisions(centralPiece, otherPieces);
 }
 
-float projectedWidth(Shape &s)
+float findPhase(float r, float s, float w)
 {
-	if (s.angle() <= 90 && s.angle() >= 0)
-	{
-		float halfWidth = s.width() / float(2);
-		float halfHeight = s.height() / float(2);
-		return sqrt((halfWidth)*(halfWidth) + (halfHeight)*(halfHeight))*cos(atan((halfHeight)/(halfWidth)-s.angle()));
-	}
-	else if (s.angle() <= 180 && s.angle() >= 90)
-	{
+	return std::asin((w + 0.5*(r - s) - r) / (0.5*(r - s)));
+}
 
-	}
-	else if (s.angle() <= 270 && s.angle() >= 180)
+float projectedWidth(Shape &s, float angle)
+{
+	float halfWidth = s.width() / float(2);
+	float halfHeight = s.height() / float(2);
+	float rectRadius = sqrt((halfWidth)*(halfWidth)+(halfHeight)*(halfHeight));
+	float phase;
+	if (halfWidth <= halfHeight)
 	{
-
+		phase = findPhase(rectRadius, halfWidth, halfWidth);
+		return 0.5*(rectRadius - halfWidth)*sin(angle + phase) + 0.5*rectRadius + 0.5*halfWidth;
 	}
-	else if (s.angle() <= 360 && s.angle() >= 270)
+	else
 	{
-
+		phase = findPhase(rectRadius, halfHeight, halfWidth);
+		return 0.5*(rectRadius - halfHeight)*sin(angle + phase) + 0.5*rectRadius + 0.5*halfHeight;
 	}
+
 	return -1;
 }
-/*
+
 void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape> &otherPieces) //Find all collisions between one shape and the shapes around it.
 {
 	_matrix.insert({ centralPiece.getVertexArrayID(), 0 });
@@ -61,13 +59,12 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape>
 	{
 		bool collisionOne;
 		bool collisionTwo;
-		bool thereWasACollision = collisionOne && collisionTwo;
 
-		int actualWidth = abs(centralPiece.centerPoint().x - otherPieces[i].centerPoint.x);
+		int actualWidth = abs(centralPiece.centerPoint().x - otherPieces[i].centerPoint().x);
 		int actualHeight = abs(centralPiece.centerPoint().x - otherPieces[i].centerPoint().x);
 
-		int newAngleC1 = centralPiece.angle() - centralPiece.angle();
-		int newAngleP1;
+		float newAngleC1 = centralPiece.angle() - centralPiece.angle(); // Do I need this?
+		float newAngleP1;
 		if (otherPieces[i].angle() < centralPiece.angle()) //Is there something that converts everything to 0-360 degrees?
 		{
 			newAngleP1 = 360 - (centralPiece.angle() - otherPieces[i].angle());
@@ -76,12 +73,12 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape>
 		{
 			newAngleP1 = otherPieces[i].angle() - centralPiece.angle();
 		}
-		int collidedWidth1 = centralPiece.width() + projectedWidth(otherPieces[i]);
+		float collidedWidth1 = centralPiece.width() + projectedWidth(otherPieces[i], newAngleP1);
 
 		collisionOne = actualWidth <= collidedWidth1;
 
-		int newAngleP2 = otherPieces[i].angle() - otherPieces[i].angle();
-		int newAngleC2;
+		float newAngleP2 = otherPieces[i].angle() - otherPieces[i].angle(); //Do I need this either?
+		float newAngleC2;
 		if (centralPiece.angle() < otherPieces[i].angle())
 		{
 			newAngleC2 = 360 - (otherPieces[i].angle() - centralPiece.angle());
@@ -90,10 +87,11 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<Shape>
 		{
 			newAngleP2 = centralPiece.angle() - otherPieces[i].angle();
 		}
-		int collidedWidth2 = otherPieces[i].width() + projectedWidth(centralPiece);
+		float collidedWidth2 = otherPieces[i].width() + projectedWidth(centralPiece, newAngleC2);
 
 		collisionTwo = actualWidth <= collidedWidth2;
 
+		bool thereWasACollision = collisionOne && collisionTwo;
 		if (thereWasACollision)
 			{
 				++_matrix[centralPiece.getVertexArrayID()];
@@ -106,7 +104,7 @@ std::unordered_map<signed, unsigned> CollisionDetector::getMatrix()
 	return _matrix;
 }
 
-
+/*
 int main()
 {
 	OtherShape s1(2, 3);
