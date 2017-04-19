@@ -30,11 +30,13 @@ CollisionDetector::CollisionDetector(Shape &centralPiece, std::vector<Shape> &ot
 	detectCollisions(centralPiece, otherPieces);
 }
 
-int projectedWidth(Shape &s)
+float projectedWidth(Shape &s)
 {
 	if (s.angle() <= 90 && s.angle() >= 0)
 	{
-		return sqrt((s.width() / 2)^2 + (s.height() / 2)^2)*cos(atan((s.height() / 2)/(s.width() / 2)-s.angle()));
+		float halfWidth = s.width() / float(2);
+		float halfHeight = s.height() / float(2);
+		return sqrt((halfWidth)*(halfWidth) + (halfHeight)*(halfHeight))*cos(atan((halfHeight)/(halfWidth)-s.angle()));
 	}
 	else if (s.angle() <= 180 && s.angle() >= 90)
 	{
