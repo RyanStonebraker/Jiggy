@@ -26,3 +26,13 @@ float JIG::Shape::angle() const
 {
 	return _rotation;
 }
+
+int JIG::Shape::getxPos() const
+{
+	return _centerPoint.x;
+}
+
+int JIG::Shape::getyPos() const
+{
+	return _centerPoint.y;
+}

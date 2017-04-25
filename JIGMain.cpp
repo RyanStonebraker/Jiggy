@@ -27,6 +27,8 @@
 #include "JIGCollisionDetector.h"
 
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
+int iterator = 0;
+
 #if __APPLE__
 void HandleKeypresses(void)
 {
@@ -83,14 +85,14 @@ void HandleKeypresses(void)
 	if (pressedKeys['D']) {
 		horizVelocity += 10;
 	}
-	if (pressedKeys[',']) {
+	if (pressedKeys['C']) {
 		rotation -= 5;
 	}
-	if (pressedKeys['.']) {
+	if (pressedKeys['V']) {
 		rotation += 5;
 	}
 
-	global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
+	global_LevelShapes[iterator]->updateGeometry(horizVelocity, vertVelocity, rotation);
 }
 
 #endif
@@ -119,12 +121,18 @@ void jiggyInit(void)
     
     InitGeometry();
     jiggyInitTestLevel();
+
 }
 
 void jiggyRenderFrame(void)
 {
 #if __APPLE__
     HandleKeypresses();
+
+	if (global_LevelShapes[iterator]->getxPos() >= 300 && global_LevelShapes[iterator]->getyPos() >= 300) {
+		iterator++;
+	}
+
 #endif
     OGL_ApplyCameraTransformations();
     OGL_UpdateVertexArrays();

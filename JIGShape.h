@@ -24,6 +24,8 @@ namespace JIG{
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation, KFAColorRGBA color) = 0;
 		float getWidth() const;
 		float getHeight() const;
+		int getxPos() const;
+		int getyPos() const;
 		float angle() const;
 		KFAPoint centerPoint() const;
 	
