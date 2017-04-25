@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <cmath>
 
 #if __APPLE__
     #include <OpenGL/OpenGL.h>
