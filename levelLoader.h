@@ -19,7 +19,7 @@ namespace JIG {
     class LoadLevel {
     public:
         LoadLevel(std::string); // takes file name // submit all shapes for rendering to get vtx array ids
-        Shape &operator[](int) const; // identifier = vtx array id
+        std::unique_ptr<JIG::Shape> &operator[](int); // identifier = vtx array id
         
         void updateFile() const;
         void updateFile(std::string);
@@ -29,9 +29,8 @@ namespace JIG {
         float &rotation(int);
         
     private:
-        std::vector <JIG::Shape> _loadedShapes; // vAID, ptr to shape
+        std::vector <std::unique_ptr<JIG::Shape>> _loadedShapes; // vAID, ptr to shape
         std::string _fname;
-        std::unique_ptr<JIG::Shape> _makeRect (KFAPoint, );
         // std::unique_ptr<JIG::Shape> _createShape(std::string, KFAPoint, float, float, float);
         void _getFromText();
     };
