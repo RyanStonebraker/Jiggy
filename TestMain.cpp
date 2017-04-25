@@ -25,6 +25,7 @@ using std::toupper;
 #include "JIGShape.h"
 using namespace JIG;
 
+#if 0
 int main()
 {
 	std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
@@ -52,3 +53,4 @@ int main()
 
 	return 0;
 }
+#endif

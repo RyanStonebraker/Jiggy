@@ -16,6 +16,8 @@
 	#endif
 	#define KB_MOST_SIGNIFICANT_BIT 0x8000
 	#include <windows.h>
+	#include <stdlib.h>
+	#include <iostream>
 	#pragma comment(lib,"user32.lib")
 #endif
 
@@ -29,6 +31,13 @@
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
 int iterator = 0;
 
+/***************************************************/
+//DEMO CODE - DELETE ON FINAL RELEASE
+/***************************************************/
+//start
+std::vector<KFAPoint> demo = { KFAPoint{300,300,200}, KFAPoint{-300,-300,200}, KFAPoint{-300,300,200}, 
+							   KFAPoint{300,-300,200}, KFAPoint{0,0,200}, KFAPoint{100,100,200} };
+//end
 #if __APPLE__
 void HandleKeypresses(void)
 {
@@ -128,19 +137,41 @@ void jiggyRenderFrame(void)
 {
 #if __APPLE__
     HandleKeypresses();
+#endif
+	
+	/*** Start check if shape position has been achieved ***/
 
-	if (global_LevelShapes[iterator]->getxPos() >= 300 && global_LevelShapes[iterator]->getyPos() >= 300) {
-		iterator++;
+	//distance tracker
+
+	/* Tristan is working on this */
+	/*
+	std::cout << "(" << demo[iterator].x - global_LevelShapes[iterator]->getxPos() << ", ";
+	std::cout << demo[iterator].x - global_LevelShapes[iterator]->getyPos() << ")";
+	//std::system("clear");
+	*/
+	
+	//range of accepted value
+	if ( (global_LevelShapes[iterator]->getxPos() <= demo[iterator].x + 20 && global_LevelShapes[iterator]->getxPos() >= demo[iterator].x - 20) && 
+		 (global_LevelShapes[iterator]->getyPos() <= demo[iterator].y + 20 && global_LevelShapes[iterator]->getyPos() >= demo[iterator].y - 20) ) {
+		
+		if (iterator < demo.size() - 1) {
+			iterator++;
+		}
+		
+		else {
+			exit(1);
+		}
 	}
 
-#endif
+	/*** End check if shape position has been achieved ***/
+
     OGL_ApplyCameraTransformations();
     OGL_UpdateVertexArrays();
 }
 
 void jiggyInitTestLevel()
 {
-    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
+    global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
 	global_LevelShapes[0]->submitForRender();
     
     global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 1.0f, 1.0f, 1.0f))));
