@@ -24,6 +24,7 @@
 #include "KFAGeometry.h"
 #include "JIGRect.h"
 #include "JIGArcSlice.h"
+#include "JIGCollisionDetector.h"
 
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
 #if __APPLE__
@@ -149,6 +150,13 @@ void jiggyInitTestLevel()
     global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
     global_LevelShapes[5]->submitForRender();
     
+	JIG::CollisionDetector col(global_LevelShapes[0], global_LevelShapes);
+	if (col.isCollided())
+	{
+		global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, -200, -200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
+		global_LevelShapes[5]->submitForRender();
+	}
+
     //std::unique_ptr<JIG::ArcSlice> aPtr = std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 40.0f, 50.0f, 0.0f, JIGMakeColor(0.0f, 0.0f, 0.0f, 1.0f), -1));
 //    global_LevelShapes.push_back(std::make_unique<JIG::Shape>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 200.0f, 360.0f, 0.0f, JIGMakeColor(1.0f, 0.85f, 0.35f, 1.0f))));
     //global_LevelShapes[0]->submitForRender();

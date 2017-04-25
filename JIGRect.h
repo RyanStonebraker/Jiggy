@@ -21,8 +21,6 @@ namespace JIG{
         ~Rectangle();
         
 	protected:
-		float _height;
-		float _width;
         
         void virtual createDataBlock(void);
 

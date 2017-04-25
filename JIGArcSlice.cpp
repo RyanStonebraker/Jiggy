@@ -10,6 +10,8 @@ This is the .cpp responsible for function pertaining to arc slices and circles
 
 JIG::ArcSlice::ArcSlice(KFAPoint centerPoint, float radius, float theta, float rotationAngle, KFAColorRGBA color, int vaID)
 {
+	_width = 2 * radius;
+	_height = 2 * radius;
     _centerPoint = centerPoint;
     _theta = theta;
     _radius = radius;
