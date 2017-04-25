@@ -6,12 +6,15 @@ This .cpp file is reponsible for creating the Rectangle shape
 JIGRectangle.cpp
 */
 #include "JIGRect.h"
+#include <cmath>
 
 JIG::Rectangle::Rectangle(KFAPoint centerPoint, float width, float height, float rotationAngle, KFAColorRGBA color, int vaID)
 {
     this->_centerPoint = centerPoint;
-    this->_width = width;
-    this->_height = height;
+    this->_width = width; //*std::cos(rotationAngle) + height*std::sin(rotationAngle)
+    this->_height = height; //*std::sin(rotationAngle) + width*std::cos(rotationAngle)
+	_rWidth = width;
+	_rHeight = height;
     this->_rotation = rotationAngle;
     this->_color = color;
     this->_drawDataSize = 0;

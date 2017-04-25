@@ -81,7 +81,7 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 	
 	CollisionDetector::_matrix.insert({ 0, 0 });
 	
-	for (unsigned int i = 5; i < 6; ++i)
+	for (unsigned int i = 1; i < 2; ++i)
 	{
 		bool collisionOne;
 		bool collisionTwo;
@@ -89,7 +89,7 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 		bool collisionFour;
 
 		float actualWidth = abs(centralPiece.centerPoint().x - otherPieces[i]->centerPoint().x);
-		float actualHeight = abs(centralPiece.centerPoint().x - otherPieces[i]->centerPoint().x);
+		float actualHeight = abs(centralPiece.centerPoint().y - otherPieces[i]->centerPoint().y);
 		float radius = sqrt(actualWidth*actualWidth + actualHeight*actualHeight);
 			
 		float newAngleP = otherPieces[i]->angle() - centralPiece.angle();
@@ -98,19 +98,18 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 
 		collisionOne = actualWidth <= collidedWidth;
 			
+		//float collidedHeight = centralPiece.getHeight()*0.5f + otherPieces[i]->getHeight()*0.5f;
 		float collidedHeight = centralPiece.getHeight()*0.5f + projectedHeight(*otherPieces[i], newAngleP);
 
 		collisionTwo = actualHeight <= collidedHeight;
 
-		float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
-
-		float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
-
-		collisionThree = actualWidth <= collidedWidth2;
-
-		float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
-
-		collisionFour;
+		//float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
+		//
+		//float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
+		//
+		//collisionThree = actualWidth <= collidedWidth2;
+		//
+		//float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
 
 		bool thereWasACollision = collisionOne && collisionTwo;
 		if (thereWasACollision)
