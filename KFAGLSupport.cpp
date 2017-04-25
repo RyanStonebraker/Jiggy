@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <cmath>
 
 #if __APPLE__
     #include <OpenGL/OpenGL.h>
@@ -168,11 +169,13 @@ void OGL_UpdateVertexArrays(void)
 					glColor4f(*(rectData), *(rectData + 1), *(rectData + 2), *(rectData + 3));
 
 					/*Set up rotation Data*/
+                    glPushMatrix();
                     glTranslatef(*(rectData + 5), *(rectData + 6), *(rectData + 7));
                     glRotatef(*(rectData + 4), 0.0f, 0.0f, 1.0f);
                     glTranslatef(-(*(rectData + 5)), -(*(rectData + 6)), -(*(rectData + 7)));
 
 					glDrawArrays(GL_QUADS, 0, 4);
+                    glPopMatrix();
 					//vertexBufferObjects[i].forceUpdate = NO;
 				}else{
 					glDrawArrays(GL_QUADS, 0, 4);
