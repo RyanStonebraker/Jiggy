@@ -12,7 +12,6 @@
     #include <OpenGL/OpenGL.h>
     #include <OpenGL/gl.h>
 #elif _WIN32
-	#include <math.h>
 	#include <windows.h>
 	#include <GL/gl.h>
 	#include <GL/GLU.h>
@@ -211,7 +210,7 @@ void OGL_UpdateVertexArrays(void)
                     float x = arcData[VERTEX_OFFSET_2D+1] * cosf(originAngle);//we now start at the start angle
                     float y = arcData[VERTEX_OFFSET_2D+1] * sinf(originAngle);
                     
-                    glBegin(GL_LINE_STRIP);//since the arc is not a closed curve, this is a strip now
+                    glBegin(GL_TRIANGLE_FAN);
                     for(int ii = 0; ii < numberSegments; ii++)
                     {
                         glVertex3f(x + arcData[5], y + arcData[6], arcData[7]);

@@ -35,6 +35,12 @@
     // Insert code here to tear down your application
 }
 
+- (void)dealloc
+{
+    [_window release];
+    [super dealloc];
+}
+
 
 @end
 #endif

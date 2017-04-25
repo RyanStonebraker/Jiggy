@@ -7,7 +7,6 @@ This is the .cpp responsible for function pertaining to arc slices and circles
 */
 
 #include "JIGArcSlice.h"
-//using namespace JIG; syntax
 
 JIG::ArcSlice::ArcSlice(KFAPoint centerPoint, float radius, float theta, float rotationAngle, KFAColorRGBA color, int vaID)
 {

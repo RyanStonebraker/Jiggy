@@ -28,11 +28,9 @@ namespace JIG
 		double getWidth() const;
 
 	protected:
-		//Functions
 		double calculateArcLength(double, double);
         void virtual createDataBlock(void);
 
-		//Variables
         float _theta;
 		float _radius;
 		float _arcLength;
