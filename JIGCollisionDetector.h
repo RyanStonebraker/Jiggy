@@ -6,32 +6,35 @@ Contains declarations for the collision detector class
 */
 
 
-#if 0
 #ifndef JIGCOLLISIONDETECTOR_H
 #define JIGCOLLISIONDETECTOR_H
 
+#include "JIGShape.h"
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <memory>
 
-#include "JIGShape.h"
-
-namespace JIG{
-class CollisionDetector
+namespace JIG
 {
-public:
-	CollisionDetector();
-	void addToMatrix(std::string, unsigned);
-    CollisionDetector(JIG::Shape &, std::vector<JIG::Shape &>);
-    void detectCollisions(JIG::Shape &, std::vector<JIG::Shape &>);
-	std::unordered_map<std::string, unsigned> getAdjacent();
-private:
-	static std::unordered_map<std::string, unsigned> _matrix;
-    std::vector<JIG::Shape> _pieces;
-};
+
+	class CollisionDetector
+	{
+	public:
+		CollisionDetector();
+		CollisionDetector(std::unique_ptr<Shape> &, std::vector<std::unique_ptr<Shape> > &);
+		void detectCollisions(Shape &, std::vector<std::unique_ptr<Shape> > &);
+		std::unordered_map<unsigned, unsigned> getMatrix();
+		bool isCollided()
+		{
+			return _collision;
+		}
+		
+	private:
+		bool _collision;
+		static std::unordered_map<unsigned, unsigned> _matrix;
+		std::vector<std::unique_ptr<Shape> > _pieces;
+	};
 }
-
-
-#endif // !COLLISION_H
-#endif
+#endif 
 

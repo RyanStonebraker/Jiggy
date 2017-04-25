@@ -81,7 +81,7 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 	
 	CollisionDetector::_matrix.insert({ 0, 0 });
 	
-	for (unsigned int i = 1; i < otherPieces.size(); ++i)
+	for (unsigned int i = 5; i < 6; ++i)
 	{
 		bool collisionOne;
 		bool collisionTwo;
