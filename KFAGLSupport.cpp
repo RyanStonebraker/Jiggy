@@ -7,7 +7,6 @@
 //
 
 #include <stdio.h>
-#include <cmath>
 
 #if __APPLE__
     #include <OpenGL/OpenGL.h>
@@ -31,7 +30,7 @@
 
 #include "KFAGLSupport.h"
 
-#define NUM_VERTEX_ARRAYS 2
+#define NUM_VERTEX_ARRAYS 469
 
 static VertexArrayType vertexBufferObjects[NUM_VERTEX_ARRAYS];
 

@@ -47,10 +47,10 @@ void HandleKeypresses(void)
     if (pressedKeys[kVK_ANSI_C]) {
         shouldChangeColor = !shouldChangeColor;
     }
-    if (pressedKeys[kVK_ANSI_Z]) {
+    if (pressedKeys[kVK_ANSI_C]) {
         rotation -= 5;
     }
-    if (pressedKeys[kVK_ANSI_X]) {
+    if (pressedKeys[kVK_ANSI_V]) {
         rotation += 5;
     }
 
