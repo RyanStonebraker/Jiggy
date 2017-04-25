@@ -47,14 +47,15 @@ void HandleKeypresses(void)
     if (pressedKeys[kVK_ANSI_C]) {
         shouldChangeColor = !shouldChangeColor;
     }
-    if (pressedKeys[kVK_ANSI_Comma]) {
+    if (pressedKeys[kVK_ANSI_Z]) {
         rotation -= 5;
     }
-    if (pressedKeys[kVK_ANSI_Period]) {
+    if (pressedKeys[kVK_ANSI_X]) {
         rotation += 5;
     }
+
     
-    global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
+    global_LevelShapes[2]->updateGeometry(horizVelocity, vertVelocity, rotation);
     
     if (pressedKeys[kVK_ANSI_I]) {
         OGL_AdjustCamera((float[]){KFA_ZOOM_SPEED, KFA_ZOOM_SPEED, KFA_ZOOM_SPEED}, KFA_CAMERA_ZOOM);
@@ -131,10 +132,26 @@ void jiggyRenderFrame(void)
 void jiggyInitTestLevel()
 {
     global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
-	//global_LevelShapes[0]->submitForRender();
+	global_LevelShapes[0]->submitForRender();
+    
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 1.0f, 1.0f, 1.0f))));
+    global_LevelShapes[1]->submitForRender();
+    
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(-100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 0.7f, 1.0f, 1.0f))));
+    global_LevelShapes[2]->submitForRender();
+    
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 300, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.3f, 1.0f, 0.6f, 1.0f))));
+    global_LevelShapes[3]->submitForRender();
+    
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 200, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.4f, 0.5f, 0.3f, 1.0f))));
+    global_LevelShapes[4]->submitForRender();
+    
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
+    global_LevelShapes[5]->submitForRender();
+    
     //std::unique_ptr<JIG::ArcSlice> aPtr = std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 40.0f, 50.0f, 0.0f, JIGMakeColor(0.0f, 0.0f, 0.0f, 1.0f), -1));
-    //global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 200.0f, 360.0f, 0.0f, JIGMakeColor(1.0f, 0.85f, 0.35f, 1.0f), -1)));
-    global_LevelShapes[0]->submitForRender();
+//    global_LevelShapes.push_back(std::make_unique<JIG::Shape>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 200.0f, 360.0f, 0.0f, JIGMakeColor(1.0f, 0.85f, 0.35f, 1.0f))));
+    //global_LevelShapes[0]->submitForRender();
 }
 
 void jiggyLevelUpdate(void)
