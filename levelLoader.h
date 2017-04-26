@@ -27,17 +27,24 @@ namespace JIG {
         
         void updateFile();
         void updateFile(std::string);
-        void renderLevel() const;
+        void renderLevel();
    
         KFAPoint &location(int);
         KFAPoint location(int) const;
+        
         float &rotation(int);
         float rotation(int) const;
         
+        KFAColorRGBA &color(int);
+        KFAColorRGBA color (int) const;
+        
+        unsigned long size();
+        
     private:
-        enum {NAME, POSITION, WIDTH, HEIGHT, ANGLE};
+        enum {NAME, POSITION, WIDTH, HEIGHT, ANGLE, COLOR};
         std::vector <std::unique_ptr<JIG::Shape>> _loadedShapes;
-        std::vector <std::tuple<std::string, KFAPoint, int, int, float> > _loadedShapeInfo;
+        std::vector <std::tuple<std::string, KFAPoint, int, int, float, KFAColorRGBA> > _loadedShapeInfo;
+        void _updatePtr(int);
         std::string _fname;
         std::string _getString(int) const;
         std::string _getTotalString() const;

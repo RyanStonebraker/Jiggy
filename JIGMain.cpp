@@ -27,6 +27,7 @@
 #include "JIGRect.h"
 #include "JIGArcSlice.h"
 #include "JIGCollisionDetector.h"
+#include "levelLoader.h"
 
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
 int iterator = 0;
@@ -67,7 +68,7 @@ void HandleKeypresses(void)
     }
 
     
-    global_LevelShapes[2]->updateGeometry(horizVelocity, vertVelocity, rotation);
+    global_LevelShapes[0]->updateGeometry(horizVelocity, vertVelocity, rotation);
     
     if (pressedKeys[kVK_ANSI_I]) {
         OGL_AdjustCamera((float[]){KFA_ZOOM_SPEED, KFA_ZOOM_SPEED, KFA_ZOOM_SPEED}, KFA_CAMERA_ZOOM);
@@ -171,31 +172,52 @@ void jiggyRenderFrame(void)
 
 void jiggyInitTestLevel()
 {
+    
+    JIG::LoadLevel testLevel ("/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt"); // location of level1.txt
+    
+    for (unsigned i = 0; i < testLevel.size(); ++i)
+    {
+        testLevel.color(i).r += 10.0f/255.0f;
+        testLevel.color(i).g += 15.0f/255.0f;
+        testLevel.color(i).b += 20.0f/255.0f;
+        
+        testLevel.location(i).x += 200;
+        testLevel.location(i).y += 200;
+        
+        testLevel.rotation(i) += 100;
+    }
+    
+    testLevel.renderLevel();
+    
+    
     global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
 	global_LevelShapes[0]->submitForRender();
     
-    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 1.0f, 1.0f, 1.0f))));
-    global_LevelShapes[1]->submitForRender();
-    
-    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(-100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 0.7f, 1.0f, 1.0f))));
-    global_LevelShapes[2]->submitForRender();
-    
-    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 300, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.3f, 1.0f, 0.6f, 1.0f))));
-    global_LevelShapes[3]->submitForRender();
-    
-    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 200, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.4f, 0.5f, 0.3f, 1.0f))));
-    global_LevelShapes[4]->submitForRender();
-    
-    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
-    global_LevelShapes[5]->submitForRender();
-    
-	JIG::CollisionDetector col(global_LevelShapes[0], global_LevelShapes);
-	if (col.isCollided())
-	{
-		global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, -200, -200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
-		global_LevelShapes[5]->submitForRender();
-	}
+//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 1.0f, 1.0f, 1.0f))));
+//    global_LevelShapes[1]->submitForRender();
+//    
+//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(-100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 0.7f, 1.0f, 1.0f))));
+//    global_LevelShapes[2]->submitForRender();
+//    
+//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 300, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.3f, 1.0f, 0.6f, 1.0f))));
+//    global_LevelShapes[3]->submitForRender();
+//    
+//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 200, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.4f, 0.5f, 0.3f, 1.0f))));
+//    global_LevelShapes[4]->submitForRender();
+//    
+//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
+//    global_LevelShapes[5]->submitForRender();
+//    
+//	JIG::CollisionDetector col(global_LevelShapes[0], global_LevelShapes);
+//	if (col.isCollided())
+//	{
+//		global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, -200, -200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
+//		global_LevelShapes[5]->submitForRender();
+//	}
 
+    
+    
+    
     //std::unique_ptr<JIG::ArcSlice> aPtr = std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 40.0f, 50.0f, 0.0f, JIGMakeColor(0.0f, 0.0f, 0.0f, 1.0f), -1));
 //    global_LevelShapes.push_back(std::make_unique<JIG::Shape>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 200.0f, 360.0f, 0.0f, JIGMakeColor(1.0f, 0.85f, 0.35f, 1.0f))));
     //global_LevelShapes[0]->submitForRender();
