@@ -103,15 +103,16 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 
 		collisionTwo = actualHeight <= collidedHeight;
 
-		//float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
-		//
-		//float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
-		//
-		//collisionThree = actualWidth <= collidedWidth2;
-		//
-		//float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
+		float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
+		
+		float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
+		
+		collisionThree = sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*cos(acos(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)/actualWidth)-newAngleC) <= collidedWidth2;
+		
+		float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
+		collisionFour = actualHeight <= collidedHeight2;
 
-		bool thereWasACollision = collisionOne && collisionTwo;
+		bool thereWasACollision = collisionOne && collisionTwo && collisionThree;
 		if (thereWasACollision)
 		{
 			_collision = true;
