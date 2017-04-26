@@ -85,11 +85,13 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 	{
 		bool collisionOne;
 		bool collisionTwo;
-		bool collisionThree;
-		bool collisionFour;
+		//bool collisionThree;
+		//bool collisionFour;
 
-		float actualWidth = abs(centralPiece.centerPoint().x - otherPieces[i]->centerPoint().x);
-		float actualHeight = abs(centralPiece.centerPoint().y - otherPieces[i]->centerPoint().y);
+		centralPiece.getWidth();
+
+		float actualWidth = float(abs(centralPiece.centerPoint().x - otherPieces[i]->centerPoint().x));
+		float actualHeight = float(abs(centralPiece.centerPoint().y - otherPieces[i]->centerPoint().y));
 		float radius = sqrt(actualWidth*actualWidth + actualHeight*actualHeight);
 			
 		float newAngleP = otherPieces[i]->angle() - centralPiece.angle();
@@ -103,16 +105,16 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 
 		collisionTwo = actualHeight <= collidedHeight;
 
-		float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
-		
-		float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
-		
-		collisionThree = sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*cos(acos(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)/actualWidth)-newAngleC) <= collidedWidth2;
-		
-		float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
-		collisionFour = actualHeight <= collidedHeight2;
+		//float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
+		//
+		//float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
+		//
+		//collisionThree = sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*cos(acos(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)/actualWidth)-newAngleC) <= collidedWidth2;
+		//
+		//float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
+		//collisionFour = actualHeight <= collidedHeight2;
 
-		bool thereWasACollision = collisionOne && collisionTwo && collisionThree;
+		bool thereWasACollision = collisionOne && collisionTwo;//&& collisionThree;
 		if (thereWasACollision)
 		{
 			_collision = true;
