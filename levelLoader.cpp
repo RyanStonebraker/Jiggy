@@ -16,24 +16,21 @@
 #include <vector>
 #include <memory>
 #include <tuple>
+#include <iostream>
 
 JIG::LoadLevel::LoadLevel(std::string fname) : _fname{fname} {
-    _getFromText();
+     _getFromText();
 }
 
 void JIG::LoadLevel::_getFromText() {
-//    KFAColorRGBA blue = JIGMakeColor(0.0f, 0.38f, 1.0f, 1.0f);
-//    KFAColorRGBA red = JIGMakeColor(1.0f, 0.2f, 0.0f, 1.0f);
-    KFAColorRGBA grey = JIGMakeColor(0.717f, 0.717f, 0.717f, 1.0f);
-
     
     // TODO ERROR CHECKING
-    std::ifstream reader(this->_fname);
+    std::ifstream reader(_fname);
     
     std::string shapeData;
+    
 
     for (unsigned i = 0; getline(reader, shapeData); ++i) {
-        
         std::istringstream shapeParser(shapeData);
         
         std::string shapeType;
@@ -48,19 +45,33 @@ void JIG::LoadLevel::_getFromText() {
         float angle = 0;
         shapeParser >> angle;
         
-        if (shapeType == "Rect") {
-            _loadedShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(shapeLoc, width, height, angle, grey)));
-            _loadedShapeInfo.push_back(std::make_tuple("Rect", shapeLoc, width, height, angle));
-        }
+        KFAColorRGBA shapeColor{0, 0, 0, 0};
+        float r, g, b;
+        shapeParser >> r >> g >> b >> shapeColor.a;
+        shapeColor.r = r/255.0;
+        shapeColor.g = g/255.0;
+        shapeColor.b = b/255.0;
         
+        
+        if (shapeType == "Rect") {
+            _loadedShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(shapeLoc, width, height, angle, shapeColor)));
+            _loadedShapeInfo.push_back(std::make_tuple("Rect", shapeLoc, width, height, angle, shapeColor));
+        }
+    
     }
+    
+//    KFAPoint shapeLoc{0, 0, 0};
+//    _loadedShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(shapeLoc, 100.0f, 100.0f, 0.0f, JIGMakeColor(0.717f, 0.717f, 0.717f, 1.0f))));
 }
 
 std::unique_ptr<JIG::Shape> & JIG::LoadLevel::operator[](int i) {
     return _loadedShapes[i];
 }
 
-void JIG::LoadLevel::renderLevel() const {
+void JIG::LoadLevel::renderLevel() {
+    for (unsigned i = 0; i < _loadedShapes.size(); ++i)
+        _updatePtr(i);
+    
     for (unsigned i = 0; i < _loadedShapes.size(); ++i) {
         _loadedShapes[i]->submitForRender();
     }
@@ -136,4 +147,20 @@ float &JIG::LoadLevel::rotation(int loc) {
 
 float JIG::LoadLevel::rotation(int loc) const {
     return std::get<JIG::LoadLevel::ANGLE>(_loadedShapeInfo[loc]);
+}
+
+KFAColorRGBA &JIG::LoadLevel::color(int loc) {
+    return std::get<JIG::LoadLevel::COLOR>(_loadedShapeInfo[loc]);
+}
+
+KFAColorRGBA JIG::LoadLevel::color (int loc) const {
+    return std::get<JIG::LoadLevel::COLOR>(_loadedShapeInfo[loc]);
+}
+
+unsigned long JIG::LoadLevel::size () {
+    return _loadedShapes.size();
+}
+
+void JIG::LoadLevel::_updatePtr(int i) {
+        _loadedShapes[i] = std::make_unique<JIG::Rectangle>(JIG::Rectangle(std::get<JIG::LoadLevel::POSITION>(_loadedShapeInfo[i]), std::get<JIG::LoadLevel::WIDTH>(_loadedShapeInfo[i]), std::get<JIG::LoadLevel::HEIGHT>(_loadedShapeInfo[i]), std::get<JIG::LoadLevel::ANGLE>(_loadedShapeInfo[i]), std::get<JIG::LoadLevel::COLOR>(_loadedShapeInfo[i])));
 }
