@@ -196,14 +196,14 @@ void jiggyInitTestLevel()
 //    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 1.0f, 1.0f, 1.0f))));
 //    global_LevelShapes[1]->submitForRender();
 //    
-//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(-100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 0.7f, 1.0f, 1.0f))));
-//    global_LevelShapes[2]->submitForRender();
+//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(-150, 100, 200), 100.0f, 100.0f, 45.0f, JIGMakeColor(0.8f, 0.7f, 1.0f, 1.0f))));
+//    global_LevelShapes[1]->submitForRender();
 //    
 //    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 300, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.3f, 1.0f, 0.6f, 1.0f))));
-//    global_LevelShapes[3]->submitForRender();
+//    global_LevelShapes[1]->submitForRender();
 //    
-//    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 200, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.4f, 0.5f, 0.3f, 1.0f))));
-//    global_LevelShapes[4]->submitForRender();
+    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 200, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.4f, 0.5f, 0.3f, 1.0f))));
+    global_LevelShapes[1]->submitForRender();
 //    
 //    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.1f, 0.8f, 0.7f, 1.0f))));
 //    global_LevelShapes[5]->submitForRender();
