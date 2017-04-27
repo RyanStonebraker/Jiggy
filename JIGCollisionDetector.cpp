@@ -85,8 +85,8 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 	{
 		bool collisionOne;
 		bool collisionTwo;
-		//bool collisionThree;
-		//bool collisionFour;
+		bool collisionThree;
+		bool collisionFour;
 
 		centralPiece.getWidth();
 
@@ -97,24 +97,24 @@ void CollisionDetector::detectCollisions(Shape &centralPiece, std::vector<std::u
 		float newAngleP = otherPieces[i]->angle() - centralPiece.angle();
 
 		float collidedWidth = centralPiece.getWidth()*0.5f + projectedWidth(*otherPieces[i], newAngleP);
-
-		collisionOne = actualWidth <= collidedWidth;
-			
+		
+		collisionOne = float(abs(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*cos(atan(actualHeight / actualWidth) - newAngleP))) <= collidedWidth;
+		
 		//float collidedHeight = centralPiece.getHeight()*0.5f + otherPieces[i]->getHeight()*0.5f;
 		float collidedHeight = centralPiece.getHeight()*0.5f + projectedHeight(*otherPieces[i], newAngleP);
 
-		collisionTwo = actualHeight <= collidedHeight;
+		collisionTwo = float(abs(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*sin(atan(actualHeight / actualWidth) - newAngleP))) <= collidedHeight;
 
-		//float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
-		//
-		//float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
-		//
-		//collisionThree = sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*cos(acos(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)/actualWidth)-newAngleC) <= collidedWidth2;
-		//
-		//float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
-		//collisionFour = actualHeight <= collidedHeight2;
+		float newAngleC = centralPiece.angle() - otherPieces[i]->angle();
+		
+		float collidedWidth2 = otherPieces[i]->getWidth()*0.5f + projectedWidth(centralPiece, newAngleC);
+		
+		collisionThree = float(abs(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*cos(atan(actualHeight / actualWidth) - newAngleC))) <= collidedWidth2;
+		
+		float collidedHeight2 = otherPieces[i]->getHeight()*0.5f + projectedHeight(centralPiece, newAngleC);
+		collisionFour = float(abs(sqrt(actualWidth*actualWidth + actualHeight*actualHeight)*sin(atan(actualHeight / actualWidth) - newAngleC))) <= collidedHeight2;
 
-		bool thereWasACollision = collisionOne && collisionTwo;//&& collisionThree;
+		bool thereWasACollision = collisionOne && collisionTwo && collisionThree && collisionFour;
 		if (thereWasACollision)
 		{
 			_collision = true;
