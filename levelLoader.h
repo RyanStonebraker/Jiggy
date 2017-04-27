@@ -28,6 +28,8 @@ namespace JIG {
         void updateFile();
         void updateFile(std::string);
         void renderLevel();
+        void sendToGlobal();
+        void submitGlobal();
    
         KFAPoint &location(int);
         KFAPoint location(int) const;

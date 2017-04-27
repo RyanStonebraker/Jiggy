@@ -22,19 +22,25 @@ namespace JIG{
         void virtual submitForRender(void) = 0;
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation) = 0;
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation, KFAColorRGBA color) = 0;
-        
+		float getWidth() const;
+		float getHeight() const;
+		int getxPos() const;
+		int getyPos() const;
+		float angle() const;
+		KFAPoint centerPoint() const;
+	
     protected:
+		float _width;
+		float _height;
         KFAPoint _centerPoint;
         KFAColorRGBA _color;
         void *drawData;
         size_t _drawDataSize;
         float _rotation;
         static unsigned int nextVertexBuffer;
+        unsigned int vertexArrayID;
         
         void virtual createDataBlock(void) = 0;
-        
-    public:
-        unsigned int vertexArrayID;
 	};
 }
 #endif /*JIGShape_H_*/
