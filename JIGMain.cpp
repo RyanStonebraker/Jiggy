@@ -29,17 +29,20 @@
 #include "JIGCollisionDetector.h"
 #include "levelLoader.h"
 #include <random>
+#include <string>
 
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
 std::vector<std::unique_ptr<JIG::Rectangle>>gameInfo;
 
-JIG::LoadLevel testLevel("/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt"); // location of level1.txt
+std::string levelLocation = "/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt";
+
+JIG::LoadLevel testLevel(levelLocation); // location of level1.txt
 
 int iterator = 0;
 bool first = true;
 
 /***************************************************/
-//DEMO CODE - DELETE ON FINAL RELEASE
+//DEMO CODE - DON'T DELETE ON FINAL RELEASE
 /***************************************************/
 //start
 std::vector<KFAPoint> demo;
@@ -145,6 +148,7 @@ void jiggyRenderFrame(void)
     HandleKeypresses();
 #endif
     static bool complete = false;
+    static unsigned long long finishTime = -1;
     static int breakShape = 0;
     static unsigned long long frameCount = 0;
     ++frameCount;
@@ -218,12 +222,13 @@ void jiggyRenderFrame(void)
                 }
                 testLevel.sendToGlobal();
                 testLevel.submitGlobal();
+                finishTime = frameCount;
                 complete = true;
             }
         }
     }
         
-        gameInfo[0]->setWidth(gameInfo[0]->getWidth() - frameCount/100.0);
+        gameInfo[0]->setWidth(gameInfo[0]->getWidth() - frameCount/1000.0);
         gameInfo[0]->submitForRender();
         
         if (gameInfo[0]->getWidth() <= 1 && !complete)
@@ -243,6 +248,10 @@ void jiggyRenderFrame(void)
         }
         
     }
+    
+    if (complete && frameCount > finishTime + 300) {
+        exit(1);
+    }
     /*** End check if shape position has been achieved ***/
     
     OGL_ApplyCameraTransformations();
@@ -253,6 +262,13 @@ void jiggyInitTestLevel()
 {
     
 //    JIG::LoadLevel testLevel("/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt"); // location of level1.txt
+    
+//    if (levelLocation == "/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/smileFace.txt") {
+//            global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(-350, 350, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.2f, 1.0f, 1.0f, 1.0f))));
+//            global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(350, 350, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.2f, 1.0f, 1.0f, 1.0f))));
+//    global_LevelShapes[0]->submitForRender();
+//    global_LevelShapes[1]->submitForRender();
+//    }
 
     for (unsigned i =0; i < testLevel.size(); ++i)
     {
@@ -264,13 +280,18 @@ void jiggyInitTestLevel()
     testLevel.submitGlobal();
     
     
-    
     gameInfo.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 675, 0), 1900.0f, 100.0f, 0.0f, JIGMakeColor(0.2f, 0.8f, 0.3f, 1.0f))));
     gameInfo[0]->submitForRender();
     
     
     
+    
+    
 //    global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
+//    global_LevelShapes.push_back(std::make_unique<JIG::ArcSlice>(JIG::ArcSlice(JIGMakePoint(0, 0, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(1.0f, 1.0f, 1.0f, 1.0f))));
+//    
+//    testLevel.submitGlobal();
+    
 //    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 1.0f, 1.0f, 1.0f))));
 //    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(-100, 100, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.8f, 0.7f, 1.0f, 1.0f))));
 //    global_LevelShapes.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 300, 200), 100.0f, 100.0f, 0.0f, JIGMakeColor(0.3f, 1.0f, 0.6f, 1.0f))));
