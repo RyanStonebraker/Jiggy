@@ -46,8 +46,40 @@ namespace JIG{
 			OGL_AssignMemoryToVertexArray(this->drawData, kfaGeometryTypeRectangle, this->_drawDataSize, this->vertexArrayID);
 		}
 	}
+	
+	void Triangle::updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation)
+	{
+		this->updateGeometry(horizontalVelocity, verticalVelocity, rotation, this->_color);
+	}
+	
+	void Triangle::updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation, KFAColorRGBA color)
+	{
+		this->_color = color;
+		this->_centerPoint.x += horizontalVelocity;
+		this->_centerPoint.y += verticalVelocity;
+		this->_rotation += rotation;
+
+		this->submitForRender();
+	}
+	
 	Triangle::~Triangle()
 	{
 		OGL_DisposeVertexArray(this->vertexArrayID);
+	}
+	
+	void Triangle::createDataBlock(void)
+	{
+		#if _MSC_VER
+		#pragma warning( push )
+		#pragma warning( disable : 4244)
+		#endif
+		
+			/*  Collin, I know you have inferior coding skills
+				so I'm puting this comment here to tell you that
+				this is where you should put your code. <3 Tristan */
+
+		#if _MSC_VER
+		#pragma warning( pop )
+		#endif
 	}
 }
