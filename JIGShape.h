@@ -26,6 +26,10 @@ namespace JIG{
 		float getHeight() const;
 		int getxPos() const;
 		int getyPos() const;
+        void setxPos(int x);
+        void setyPos(int y);
+        void setRotPos(float r);
+        
 		float angle() const;
 		KFAPoint centerPoint() const;
 	

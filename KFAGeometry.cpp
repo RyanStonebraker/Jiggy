@@ -19,18 +19,8 @@
 
 extern std::vector<JIG::Shape>global_LevelShapes;
 
-static const float axisLinesData[] = {-1000.0f, 0.0f, 0.0f,
-    1000.0f, 0.0f, 0.0f,
-    0.0f, -1000.0f, 0.0f,
-    0.0f, 1000.0f, 0.0f};
-
-static float *axisLines;
-
 void InitGeometry(void)
 {
-    axisLines = (float *)malloc(sizeof(KFAPoint)*4);
-    memcpy(axisLines, &axisLinesData, sizeof(axisLinesData));
-    OGL_AssignMemoryToVertexArray(axisLines, kfaGeometryTypeLine, sizeof(axisLinesData), 0);
     return;
     
 #if 0

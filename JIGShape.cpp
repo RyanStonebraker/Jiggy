@@ -36,3 +36,18 @@ int JIG::Shape::getyPos() const
 {
 	return _centerPoint.y;
 }
+
+void JIG::Shape::setxPos(int x)
+{
+    _centerPoint.x = x;
+}
+
+void JIG::Shape::setyPos(int y)
+{
+    _centerPoint.y = y;
+}
+
+void JIG::Shape::setRotPos(float r)
+{
+    _rotation = r;
+}
