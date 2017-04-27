@@ -4,7 +4,7 @@
 //
 //  Created by Collin Lasley on 4/4/17.
 //
-//
+// 950*2 width, 700*2 height
 
 #if __APPLE__
 #include <Carbon/Carbon.h>
@@ -31,6 +31,10 @@
 #include <random>
 
 std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
+std::vector<std::unique_ptr<JIG::Rectangle>>gameInfo;
+
+JIG::LoadLevel testLevel("/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt"); // location of level1.txt
+
 int iterator = 0;
 bool first = true;
 
@@ -140,7 +144,11 @@ void jiggyRenderFrame(void)
 #if __APPLE__
     HandleKeypresses();
 #endif
+    static bool complete = false;
     static int breakShape = 0;
+    static unsigned long long frameCount = 0;
+    ++frameCount;
+    
     static std::random_device rd;
     /*** Start check if shape position has been achieved ***/
     
@@ -202,9 +210,38 @@ void jiggyRenderFrame(void)
         }
         
         else {
-            exit(1);
+            if (!complete)
+            {
+                for (unsigned int i = 0; i < global_LevelShapes.size(); i++) {
+//                OGL_StartColorTransition(global_LevelShapes[i]->vertexArrayID, JIGMakeColor(0.0f, 0.0f, 0.85f, 1.0));
+                testLevel.color(i) = JIGMakeColor(0.0f, 0.0f, 0.85f, 1.0);
+                }
+                testLevel.sendToGlobal();
+                testLevel.submitGlobal();
+                complete = true;
+            }
         }
     }
+        
+        gameInfo[0]->setWidth(gameInfo[0]->getWidth() - frameCount/100.0);
+        gameInfo[0]->submitForRender();
+        
+        if (gameInfo[0]->getWidth() <= 1 && !complete)
+        {
+//            for (unsigned int i = 0; i < global_LevelShapes.size(); i++) {
+//                KFAPoint tmpPt {global_LevelShapes[i]->getxPos(), global_LevelShapes[i]->getyPos(), 0};
+//                testLevel.location(i) = tmpPt;
+//                testLevel.color(i) = JIGMakeColor(0.85f, 0.0f, 0.0f, 1.0);
+//            }
+//            
+//            testLevel.sendToGlobal();
+//            testLevel.submitGlobal();
+//
+            gameInfo.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 0, 0), 2*1900.0f, 2*1400.0f, 0.0f, JIGMakeColor(0.85f, 0.0f, 0.0f, 1.0f))));
+            gameInfo[1]->submitForRender();
+            complete = true;
+        }
+        
     }
     /*** End check if shape position has been achieved ***/
     
@@ -215,8 +252,8 @@ void jiggyRenderFrame(void)
 void jiggyInitTestLevel()
 {
     
-    JIG::LoadLevel testLevel("/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt"); // location of level1.txt
-    
+//    JIG::LoadLevel testLevel("/Users/Ryan/Documents/College-UAF/Classwork/CS202/jiggyProject/level1.txt"); // location of level1.txt
+
     for (unsigned i =0; i < testLevel.size(); ++i)
     {
         demo.push_back(testLevel.location(i));
@@ -225,6 +262,11 @@ void jiggyInitTestLevel()
     
     testLevel.sendToGlobal();
     testLevel.submitGlobal();
+    
+    
+    
+    gameInfo.push_back(std::make_unique<JIG::Rectangle>(JIG::Rectangle(JIGMakePoint(0, 675, 0), 1900.0f, 100.0f, 0.0f, JIGMakeColor(0.2f, 0.8f, 0.3f, 1.0f))));
+    gameInfo[0]->submitForRender();
     
     
     

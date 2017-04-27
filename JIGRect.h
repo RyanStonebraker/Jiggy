@@ -18,6 +18,8 @@ namespace JIG{
         void virtual submitForRender(void);
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation);
         void virtual updateGeometry(int horizontalVelocity, int verticalVelocity, float rotation, KFAColorRGBA color);
+        int getWidth() const;
+        void setWidth(float);
         ~Rectangle();
         
 	protected:

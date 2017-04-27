@@ -17,6 +17,8 @@
 #include <iostream>
 #include <tuple>
 
+extern std::vector<std::unique_ptr<JIG::Shape>>global_LevelShapes;
+
 namespace JIG {
     class LoadLevel {
     public:
@@ -30,6 +32,7 @@ namespace JIG {
         void renderLevel();
         void sendToGlobal();
         void submitGlobal();
+//        void getFromGlobal();
    
         KFAPoint &location(int);
         KFAPoint location(int) const;
@@ -39,6 +42,10 @@ namespace JIG {
         
         KFAColorRGBA &color(int);
         KFAColorRGBA color (int) const;
+        
+        void setWidth (int, int);
+        int getWidth (int);
+        
         
         unsigned long size();
         

@@ -34,15 +34,17 @@ namespace JIG{
 		KFAPoint centerPoint() const;
 	
     protected:
-		float _width;
-		float _height;
-        KFAPoint _centerPoint;
-        KFAColorRGBA _color;
         void *drawData;
         size_t _drawDataSize;
-        float _rotation;
         static unsigned int nextVertexBuffer;
+    public:
         unsigned int vertexArrayID;
+        float _width;
+        float _height;
+        KFAPoint _centerPoint;
+        KFAColorRGBA _color;
+        float _rotation;
+
         
         void virtual createDataBlock(void) = 0;
 	};

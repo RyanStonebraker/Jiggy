@@ -106,3 +106,10 @@ JIG::Rectangle::~Rectangle()
 	OGL_DisposeVertexArray(this->vertexArrayID);
 }
 
+int JIG::Rectangle::getWidth() const {
+    return _width;
+}
+void JIG::Rectangle::setWidth(float width) {
+    _width = width;
+}
+

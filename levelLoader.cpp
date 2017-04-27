@@ -198,9 +198,29 @@ void JIG::LoadLevel::sendToGlobal() {
     }
 }
 
+//void JIG::LoadLevel::getFromGlobal() {
+//    for (unsigned i = 0; i < global_LevelShapes.size(); ++i) {
+//        if (i < _loadedShapes.size()) {
+//            _loadedShapes[i] = std::make_unique<JIG::Rectangle>(JIG::Rectangle(global_LevelShapes[i]->_centerPoint, global_LevelShapes[i]->_width, global_LevelShapes[i]->_height, global_LevelShapes[i]->_rotation, global_LevelShapes[i]->_color));
+//        }
+//        else {
+//            _loadedShapes.push_back(std::make_unique<JIG::Rectangle>(std::make_unique<JIG::Rectangle>(JIG::Rectangle(global_LevelShapes[i]->_centerPoint, global_LevelShapes[i]->_width, global_LevelShapes[i]->_height, global_LevelShapes[i]->_rotation, global_LevelShapes[i]->_color))));
+//        }
+//    }
+//}
+
 void JIG::LoadLevel::submitGlobal() {
     for (unsigned i = 0; i < global_LevelShapes.size(); ++i) {
         global_LevelShapes[i]->submitForRender();
     }
+}
+
+void JIG::LoadLevel::setWidth(int i, int width) {
+    global_LevelShapes[i] = std::make_unique<JIG::Rectangle>(JIG::Rectangle(std::get<JIG::LoadLevel::POSITION>(_loadedShapeInfo[i]), width, std::get<JIG::LoadLevel::HEIGHT>(_loadedShapeInfo[i]), std::get<JIG::LoadLevel::ANGLE>(_loadedShapeInfo[i]), std::get<JIG::LoadLevel::COLOR>(_loadedShapeInfo[i])));
+    _updatePtr(i);
+}
+
+int JIG::LoadLevel::getWidth (int i) {
+    return std::get<JIG::LoadLevel::WIDTH>(_loadedShapeInfo[i]);
 }
 

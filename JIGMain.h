@@ -7,7 +7,7 @@
 //
 
 #if __APPLE__
-    extern BOOL pressedKeys[128];
+    extern bool pressedKeys[128];
 #elif _WIN32
 	extern bool pressedKeys[0x100];
 #endif
@@ -33,3 +33,4 @@ void jiggyInitTestLevel();
 void jiggyRenderFrame(void);
 
 void jiggyLevelUpdate(void);
+

@@ -21,7 +21,7 @@
 #include "KFAGeometry.h"
 #include "JIGMain.h"
 
-BOOL pressedKeys[128];
+bool pressedKeys[128];
 
 #pragma mark Objective-C Implementation
 @implementation KFAOpenGLView
