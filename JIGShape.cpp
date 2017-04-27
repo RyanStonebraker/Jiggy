@@ -6,33 +6,3 @@ This .cpp file is reponsible for creating the base shape class
 JIGShape.cpp
 */
 #include "JIGShape.h"
-
-float JIG::Shape::getWidth() const
-{
-	return _width;
-}
-
-float JIG::Shape::getHeight() const
-{
-	return _height;
-}
-
-KFAPoint JIG::Shape::centerPoint() const
-{
-	return _centerPoint;
-}
-
-float JIG::Shape::angle() const
-{
-	return _rotation;
-}
-
-int JIG::Shape::getxPos() const
-{
-	return _centerPoint.x;
-}
-
-int JIG::Shape::getyPos() const
-{
-	return _centerPoint.y;
-}

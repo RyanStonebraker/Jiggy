@@ -61,6 +61,9 @@ typedef struct{
     GLuint  vbo;                    /*GL Vertex Buffer Object Ptr*/
     bool	forceUpdate;			/*YES Indicates VAR needs update*/
     bool	activated;				/*YES After first use*/
+    signed int frameCount;
+    KFAColorRGBA currentColor;
+    KFAColorRGBA colorDelta;
 }VertexArrayType;
 
 typedef enum : unsigned int {
@@ -84,6 +87,10 @@ void OGL_UpdateVertexArrays(void);
 void OGL_DisposeVertexArrays(void);
 
 void OGL_DisposeVertexArray(int vaID);
+
+void OGL_InterpolateColorForFrameCount(KFAColorRGBA *outputColor, unsigned int vertexArrayID);
+
+void OGL_StartColorTransition(int vaID, KFAColorRGBA desiredColor);
 
 void OGL_MarkVertexArrayRangeForUpdate(int startIndex, int endIndex);
 

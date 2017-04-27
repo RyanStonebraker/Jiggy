@@ -33,6 +33,8 @@
 
 #define NUM_VERTEX_ARRAYS 469
 
+#define FRAMES_TO_ANIMATE 30
+
 static VertexArrayType vertexBufferObjects[NUM_VERTEX_ARRAYS];
 
 static float translationTransformations[3], scaleTransformations[3], rotationTransformations[3];
@@ -72,6 +74,10 @@ void OGL_InitVertexArrays(void)
         vertexBufferObjects[i].dataBlockPtr = NULL;
         vertexBufferObjects[i].forceUpdate = false;
         vertexBufferObjects[i].activated = false;
+        vertexBufferObjects[i].frameCount = -1;
+        vertexBufferObjects[i].currentColor.r = 0.0f;
+        vertexBufferObjects[i].currentColor.g = 0.0f;
+        vertexBufferObjects[i].currentColor.b = 0.0f;
         glGenBuffers(1, &vertexBufferObjects[i].vbo);
     }
     
@@ -166,7 +172,12 @@ void OGL_UpdateVertexArrays(void)
 					glEnableClientState(GL_VERTEX_ARRAY);
 
 					/*Set up color data*/
-					glColor4f(*(rectData), *(rectData + 1), *(rectData + 2), *(rectData + 3));
+                    if (vertexBufferObjects[i].frameCount >= 0) {
+                        OGL_InterpolateColorForFrameCount(&(vertexBufferObjects[i].currentColor), i);
+                        glColor4f(vertexBufferObjects[i].currentColor.r, vertexBufferObjects[i].currentColor.g, vertexBufferObjects[i].currentColor.b, 1.0f);
+                    }else{
+                        glColor4f(*(rectData), *(rectData + 1), *(rectData + 2), *(rectData + 3));
+                    }
 
 					/*Set up rotation Data*/
                     glPushMatrix();
@@ -264,6 +275,31 @@ void OGL_DisposeVertexArray(int vaID)
         vertexBufferObjects[vaID].forceUpdate = false;
         vertexBufferObjects[vaID].activated = false;
     }
+}
+
+void OGL_InterpolateColorForFrameCount(KFAColorRGBA *outputColor, unsigned int vertexArrayID)
+{
+    ;
+    outputColor->r += vertexBufferObjects[vertexArrayID].colorDelta.r;
+    outputColor->g += vertexBufferObjects[vertexArrayID].colorDelta.g;
+    outputColor->b += vertexBufferObjects[vertexArrayID].colorDelta.b;
+    vertexBufferObjects[vertexArrayID].frameCount++;
+    if(vertexBufferObjects[vertexArrayID].frameCount >= FRAMES_TO_ANIMATE)
+        vertexBufferObjects[vertexArrayID].frameCount = -1;
+}
+
+void OGL_StartColorTransition(int vaID, KFAColorRGBA desiredColor)
+{
+    float *colorData = (float *)vertexBufferObjects[vaID].dataBlockPtr;
+    
+    vertexBufferObjects[vaID].currentColor.r = *colorData;
+    vertexBufferObjects[vaID].currentColor.r = *(colorData+1);
+    vertexBufferObjects[vaID].currentColor.r = *(colorData+2);
+    vertexBufferObjects[vaID].colorDelta.r = (vertexBufferObjects[vaID].currentColor.r - desiredColor.r)/(FRAMES_TO_ANIMATE);
+    vertexBufferObjects[vaID].colorDelta.g = (vertexBufferObjects[vaID].currentColor.g - desiredColor.g)/(FRAMES_TO_ANIMATE);
+    vertexBufferObjects[vaID].colorDelta.b = (vertexBufferObjects[vaID].currentColor.b - desiredColor.b)/(FRAMES_TO_ANIMATE);
+    vertexBufferObjects[vaID].frameCount = 0;
+    
 }
 
 void OGL_MarkVertexArrayRangeForUpdate(int startIndex, int endIndex)
